@@ -1,0 +1,1662 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>EPI-USE Africa: AI & AMS Innovation Pitch</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap");
+
+      :root {
+        --epi-blue: #0b2b46;
+        --epi-blue-deep: #061a2e;
+        --epi-red: #d32027;
+        --epi-red-glow: rgba(211, 32, 39, 0.4);
+        --text-dark: #1f2937;
+        --text-light: #f3f4f6;
+        --bg-light: #ffffff;
+        --bg-alt: #f8fafc;
+        --glass: rgba(255, 255, 255, 0.06);
+        --glass-border: rgba(255, 255, 255, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg-light);
+        color: var(--text-dark);
+        overflow: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      #particles {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      #progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--epi-red), #ff6b6b);
+        z-index: 200;
+        transition: width 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        box-shadow: 0 0 12px var(--epi-red-glow);
+      }
+
+      #slide-number {
+        position: fixed;
+        bottom: 2.2rem;
+        left: 3rem;
+        z-index: 200;
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 2px;
+        color: #9ca3af;
+        transition: color 0.4s;
+      }
+
+      #slide-number.on-dark {
+        color: rgba(255, 255, 255, 0.45);
+      }
+
+      #deck {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      .slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 7% 10%;
+        transition:
+          opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1),
+          visibility 0.7s,
+          transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+        transform: translateY(30px) scale(0.98);
+        z-index: 1;
+      }
+
+      .slide.active {
+        opacity: 1;
+        visibility: visible;
+        z-index: 10;
+        transform: translateY(0) scale(1);
+      }
+
+      .slide.exit-up {
+        opacity: 0;
+        transform: translateY(-40px) scale(0.97);
+      }
+
+      .slide.exit-down {
+        opacity: 0;
+        transform: translateY(40px) scale(0.97);
+      }
+
+      h1 {
+        font-size: clamp(2.6rem, 5vw, 4.8rem);
+        font-weight: 800;
+        line-height: 1.08;
+        margin-bottom: 1rem;
+        color: var(--epi-blue);
+      }
+
+      h2 {
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        font-weight: 800;
+        margin-bottom: 1.4rem;
+        color: var(--epi-blue);
+      }
+
+      h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.8rem;
+        color: var(--epi-blue);
+      }
+
+      p {
+        font-size: clamp(1rem, 1.45vw, 1.32rem);
+        line-height: 1.55;
+        margin-bottom: 1rem;
+        color: #4b5563;
+      }
+
+      .kicker {
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        font-size: 0.88rem;
+        color: #9ca3af;
+        margin-bottom: 1rem;
+      }
+
+      .accent {
+        color: var(--epi-red);
+        position: relative;
+      }
+
+      h1 .accent::after,
+      h2 .accent::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        width: 0;
+        height: 3px;
+        background: var(--epi-red);
+        border-radius: 2px;
+        transition: width 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.4s;
+      }
+
+      .slide.active h1 .accent::after,
+      .slide.active h2 .accent::after {
+        width: 100%;
+      }
+
+      .slide .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition:
+          opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+          transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .slide.active .reveal {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .slide.active .reveal:nth-child(1) {
+        transition-delay: 0.15s;
+      }
+
+      .slide.active .reveal:nth-child(2) {
+        transition-delay: 0.3s;
+      }
+
+      .slide.active .reveal:nth-child(3) {
+        transition-delay: 0.45s;
+      }
+
+      .slide.active .reveal:nth-child(4) {
+        transition-delay: 0.6s;
+      }
+
+      .slide.active .reveal:nth-child(5) {
+        transition-delay: 0.75s;
+      }
+
+      .slide.active .reveal:nth-child(6) {
+        transition-delay: 0.9s;
+      }
+
+      .slide.active .reveal:nth-child(7) {
+        transition-delay: 1.05s;
+      }
+
+      .dark-slide {
+        background: linear-gradient(
+          135deg,
+          var(--epi-blue-deep) 0%,
+          var(--epi-blue) 50%,
+          #0f3558 100%
+        );
+        color: var(--text-light);
+        overflow: hidden;
+      }
+
+      .dark-slide::before {
+        content: "";
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          var(--epi-red-glow) 0%,
+          transparent 70%
+        );
+        top: -200px;
+        right: -200px;
+        pointer-events: none;
+        opacity: 0.5;
+        animation: pulse-glow 6s ease-in-out infinite alternate;
+      }
+
+      @keyframes pulse-glow {
+        0% {
+          transform: scale(1);
+          opacity: 0.3;
+        }
+
+        100% {
+          transform: scale(1.2);
+          opacity: 0.6;
+        }
+      }
+
+      .dark-slide h1,
+      .dark-slide h2,
+      .dark-slide h3,
+      .dark-slide p {
+        color: var(--text-light);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 1.6rem;
+        align-items: start;
+        margin-top: 1.6rem;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.4rem;
+        margin-top: 1.6rem;
+      }
+
+      .grid-4 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.4rem;
+        margin-top: 1.6rem;
+      }
+
+      @media (max-width: 900px) {
+        .grid-2,
+        .grid-3,
+        .grid-4 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: var(--bg-alt);
+        padding: 1.7rem;
+        border-radius: 16px;
+        border-left: 6px solid var(--epi-red);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+        transition:
+          transform 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+          box-shadow 0.35s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          transparent 60%,
+          rgba(211, 32, 39, 0.04)
+        );
+        pointer-events: none;
+      }
+
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-dark {
+        background: var(--glass);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border);
+        border-left: 6px solid var(--epi-red);
+      }
+
+      .card-dark::after {
+        background: linear-gradient(
+          135deg,
+          transparent 60%,
+          rgba(211, 32, 39, 0.06)
+        );
+      }
+
+      .card-dark:hover {
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      }
+
+      .metric-huge {
+        font-size: clamp(2.35rem, 4.4vw, 3.6rem);
+        font-weight: 800;
+        color: var(--epi-blue);
+        margin-bottom: 0.45rem;
+        line-height: 1;
+        background: linear-gradient(135deg, var(--epi-blue), #1a4a6e);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .dark-slide .metric-huge {
+        background: linear-gradient(135deg, #fff, #cbd5e1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .metric-label {
+        font-size: 0.98rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.1px;
+        color: #6b7280;
+      }
+
+      .dark-slide .metric-label {
+        color: #9ca3af;
+      }
+
+      .mini-list {
+        list-style: none;
+        margin-top: 1rem;
+      }
+
+      .mini-list li {
+        position: relative;
+        padding-left: 1.1rem;
+        margin-bottom: 0.7rem;
+        color: inherit;
+        font-size: 0.98rem;
+        line-height: 1.5;
+      }
+
+      .mini-list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.68rem;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--epi-red);
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.2rem;
+      }
+
+      .tag {
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        background: rgba(11, 43, 70, 0.08);
+        color: var(--epi-blue);
+        font-weight: 600;
+        font-size: 0.92rem;
+      }
+
+      .dark-slide .tag {
+        background: rgba(255, 255, 255, 0.08);
+        color: white;
+      }
+
+      .blueprint {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 2rem;
+        background: linear-gradient(135deg, var(--epi-blue), #0f3558);
+        padding: 1.8rem 2rem;
+        border-radius: 16px;
+        color: white;
+        box-shadow: 0 15px 40px rgba(11, 43, 70, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .blueprint::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 24%,
+          rgba(255, 255, 255, 0.03) 24%,
+          rgba(255, 255, 255, 0.03) 25%
+        );
+        pointer-events: none;
+      }
+
+      .step {
+        font-size: clamp(0.92rem, 1.25vw, 1.15rem);
+        font-weight: 700;
+        z-index: 1;
+        text-align: center;
+        flex: 1;
+      }
+
+      .arrow {
+        color: var(--epi-red);
+        font-weight: bold;
+        font-size: 1.8rem;
+        z-index: 1;
+        animation: arrow-bounce 1.5s ease-in-out infinite;
+        flex-shrink: 0;
+        margin: 0 0.35rem;
+      }
+
+      @keyframes arrow-bounce {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+
+        50% {
+          transform: translateX(6px);
+        }
+      }
+
+      .urgent-box {
+        border: 3px solid var(--epi-red);
+        padding: 1.4rem 1.8rem;
+        display: inline-block;
+        margin-top: 1.5rem;
+        font-weight: 800;
+        color: var(--epi-blue);
+        font-size: clamp(1.05rem, 1.7vw, 1.45rem);
+        border-radius: 12px;
+        position: relative;
+        background: rgba(211, 32, 39, 0.05);
+        animation: urgent-pulse 3s ease-in-out infinite;
+      }
+
+      @keyframes urgent-pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(211, 32, 39, 0.2);
+        }
+
+        50% {
+          box-shadow: 0 0 0 12px rgba(211, 32, 39, 0);
+        }
+      }
+
+      .statement {
+        font-size: clamp(1.35rem, 2.1vw, 2.1rem);
+        line-height: 1.34;
+        font-weight: 700;
+        max-width: 980px;
+      }
+
+      .dark-slide .statement {
+        color: white;
+      }
+
+      .ask-list {
+        list-style: none;
+        font-size: clamp(1.05rem, 1.65vw, 1.45rem);
+        line-height: 1.35;
+        margin-top: 0.8rem;
+      }
+
+      .ask-list li {
+        padding: 0.9rem 0;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+      }
+
+      .ask-list li:last-child {
+        border-bottom: none;
+      }
+
+      .ask-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        background: var(--epi-red);
+        color: white;
+        border-radius: 50%;
+        font-weight: 800;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+      }
+
+      .quote-text {
+        font-size: clamp(1.85rem, 4.2vw, 3.8rem);
+        text-align: centre;
+        line-height: 1.22;
+        font-weight: 800;
+        max-width: 980px;
+        margin: 0 auto;
+      }
+
+      .quote-text .accent {
+        position: relative;
+        display: inline;
+        background: linear-gradient(135deg, var(--epi-red), #ff6b6b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .quote-text .accent::after {
+        display: none;
+      }
+
+      .sub-quote {
+        text-align: centre;
+        max-width: 900px;
+        margin: 1.8rem auto 0;
+        color: #cbd5e1;
+        font-size: 1.1rem;
+      }
+
+      .source-note {
+        position: absolute;
+        right: 3rem;
+        bottom: 5rem;
+        max-width: 460px;
+        font-size: 0.72rem;
+        line-height: 1.45;
+        color: #94a3b8;
+        text-align: right;
+        opacity: 0.9;
+        z-index: 15;
+      }
+
+      .dark-slide .source-note {
+        color: rgba(255, 255, 255, 0.45);
+      }
+
+      .controls {
+        position: fixed;
+        bottom: 2rem;
+        right: 3rem;
+        z-index: 200;
+        display: flex;
+        gap: 0.75rem;
+        align-items: centre;
+      }
+
+      button {
+        background: var(--epi-blue);
+        color: white;
+        border: none;
+        padding: 0.7rem 1.4rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+        font-family: "Inter", sans-serif;
+        backdrop-filter: blur(8px);
+      }
+
+      button:hover {
+        background: var(--epi-red);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(211, 32, 39, 0.3);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      button.btn-icon {
+        padding: 0.7rem;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: centre;
+        justify-content: centre;
+        font-size: 1.2rem;
+      }
+
+      #notes-panel {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.92);
+        backdrop-filter: blur(16px);
+        color: #e5e7eb;
+        padding: 1.5rem 3rem;
+        font-size: 1rem;
+        line-height: 1.6;
+        z-index: 300;
+        transform: translateY(100%);
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        max-height: 30vh;
+        overflow-y: auto;
+        border-top: 2px solid var(--epi-red);
+      }
+
+      #notes-panel.open {
+        transform: translateY(0);
+      }
+
+      #notes-panel h4 {
+        color: var(--epi-red);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 0.75rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .float-shape {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        opacity: 0.04;
+      }
+
+      .light-slide-deco {
+        background: var(--epi-blue);
+      }
+
+      @media (max-width: 768px) {
+        .slide {
+          padding: 7% 6%;
+        }
+
+        .blueprint {
+          flex-direction: column;
+          gap: 1rem;
+          text-align: centre;
+        }
+
+        .arrow {
+          transform: rotate(90deg);
+          animation: none;
+        }
+
+        .controls {
+          right: 1rem;
+          bottom: 1rem;
+        }
+
+        #slide-number {
+          left: 1rem;
+          bottom: 1.2rem;
+        }
+
+        .source-note {
+          left: 1rem;
+          right: 1rem;
+          bottom: 4.8rem;
+          max-width: none;
+          text-align: left;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="particles"></canvas>
+    <div id="progress" style="width: 0%"></div>
+    <div id="slide-number">01 / 15</div>
+
+    <div id="deck">
+      <div
+        class="slide active dark-slide"
+        data-notes="Start calmly and with confidence. This is the formal title slide. Let the title do the work and avoid over-speaking it."
+      >
+        <p class="kicker reveal">Associate Manager Pitch</p>
+        <h1 class="reveal">
+          Scaling AMS Through
+          <span class="accent">Intelligent Automation</span>
+        </h1>
+        <p
+          class="reveal"
+          style="
+            font-size: clamp(1.2rem, 1.9vw, 1.7rem);
+            max-width: 840px;
+            margin-top: 0.6rem;
+          "
+        >
+          A strategy to strengthen delivery, improve margin, and position
+          EPI-USE Africa as the premier AI-enabled SuccessFactors support
+          partner in the region.
+        </p>
+        <p
+          class="reveal"
+          style="margin-top: 2rem; color: #cbd5e1; font-size: 1.1rem"
+        >
+          Marco · EPI-USE Africa · 2026
+        </p>
+      </div>
+
+      <div
+        class="slide dark-slide"
+        data-notes="Open with conviction. AMS is not a back-office support function in this story; it is our closest channel to trust, insight, and adoption."
+      >
+        <p class="kicker reveal">Opening Hook</p>
+        <h2 class="reveal">
+          AMS is our closest point of client trust.
+          <br />
+          In the AI era, that becomes our
+          <span class="accent">unfair advantage</span>.
+        </h2>
+        <p
+          class="reveal"
+          style="
+            font-size: clamp(1.2rem, 1.9vw, 1.7rem);
+            max-width: 980px;
+            margin-top: 0.8rem;
+          "
+        >
+          SAP is already moving from assistant-led experiences to agentic,
+          workflow-level execution, whether clients are ready or not.
+        </p>
+        <p
+          class="reveal"
+          style="
+            font-size: clamp(1.1rem, 1.7vw, 1.45rem);
+            max-width: 900px;
+            color: #cbd5e1;
+          "
+        >
+          The opportunity is to lead that shift for our clients before the
+          market forces it on them.
+        </p>
+      </div>
+
+      <div
+        class="slide"
+        data-notes="Establish breadth and credibility. Show that your role already spans delivery, contracts, escalations, and client leadership."
+      >
+        <div
+          class="float-shape light-slide-deco"
+          style="
+            width: 420px;
+            height: 420px;
+            top: -120px;
+            right: -140px;
+          "
+        ></div>
+        <p class="kicker reveal">Introduction & About Me</p>
+        <h2 class="reveal">
+          Why I am positioned to <span class="accent">lead this now</span>
+        </h2>
+
+        <div class="grid-2">
+          <div class="card reveal">
+            <h3>Current role</h3>
+            <p>
+              Managing client relationships, escalations, contracts, and
+              operational excellence across complex AMS environments.
+            </p>
+            <ul class="mini-list">
+              <li>Driving delivery quality in live, high-pressure settings</li>
+              <li>Bridging service, commercials, and client trust</li>
+              <li>
+                Translating delivery pain points into product opportunities
+              </li>
+            </ul>
+          </div>
+
+          <div class="card reveal">
+            <h3>Key clients</h3>
+            <p>
+              Trusted across demanding environments including Discovery,
+              Capitec, Allan Gray, SARS, Engen, and Mediclinic.
+            </p>
+            <div class="tag-row">
+              <span class="tag">Discovery</span>
+              <span class="tag">Capitec</span>
+              <span class="tag">Allan Gray</span>
+              <span class="tag">SARS</span>
+              <span class="tag">Engen</span>
+              <span class="tag">Mediclinic</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="reveal" style="margin-top: 1.5rem; max-width: 980px">
+          My focus is dual: deliver uncompromised excellence today, while
+          building the AI-enabled products and operating model that will define
+          tomorrow’s AMS offering.
+        </p>
+
+        <p class="reveal" style="max-width: 980px; margin-bottom: 0">
+          This presentation shows how we can scale AMS through intelligent
+          automation, and why I am the right leader to formalise that strategy
+          as an Associate Manager.
+        </p>
+      </div>
+
+      <div
+        class="slide"
+        data-notes="This is proof, not aspiration. If you get asked for precise numbers later, these can be dropped into the deck easily."
+      >
+        <p class="kicker reveal">Track Record & Impact</p>
+        <h2 class="reveal">
+          Earned trust across complex, regulated, and
+          <span class="accent">demanding environments</span>
+        </h2>
+
+        <div class="grid-3">
+          <div class="card reveal">
+            <h3>Operational excellence</h3>
+            <p>
+              Consistently high SLA adherence, strong renewal momentum, and
+              meaningful escalation reduction across managed clients.
+            </p>
+          </div>
+          <div class="card reveal">
+            <h3>Commercial impact</h3>
+            <p>
+              Deep involvement in proposals, complex contract negotiations, and
+              identifying upsell and white-space opportunities.
+            </p>
+          </div>
+          <div class="card reveal">
+            <h3>Leadership in action</h3>
+            <p>
+              Already operating across delivery, commercials, relationships, and
+              innovation at Associate Manager level.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="card reveal">
+            <h3>Discovery</h3>
+            <p style="margin-bottom: 0">
+              Earned trust through consistent delivery in a demanding enterprise
+              environment.
+            </p>
+          </div>
+          <div class="card reveal">
+            <h3>Capitec</h3>
+            <p style="margin-bottom: 0">
+              Demonstrated rigour in a high-compliance, high-accountability
+              context.
+            </p>
+          </div>
+          <div class="card reveal">
+            <h3>SARS</h3>
+            <p style="margin-bottom: 0">
+              Proven discipline in a highly regulated, high-security operating
+              environment.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="slide dark-slide"
+        data-notes="Keep this simple and memorable: assistant, actor, operator. The audience should feel you understand the progression, not just the hype."
+      >
+        <p class="kicker reveal">The AI Landscape</p>
+        <h2 class="reveal">
+          Understanding the yesterday, today, and tomorrow of
+          <span class="accent">AI in service delivery</span>
+        </h2>
+
+        <div class="grid-3">
+          <div class="card card-dark reveal">
+            <div class="metric-label">Yesterday</div>
+            <h3 style="color: white">The chat era</h3>
+            <p style="color: #d1d5db">
+              AI as a conversational assistant: useful for research, drafting,
+              and troubleshooting, but still largely passive.
+            </p>
+          </div>
+          <div class="card card-dark reveal">
+            <div class="metric-label">Today</div>
+            <h3 style="color: white">The agentic shift</h3>
+            <p style="color: #d1d5db">
+              AI as an active participant: reading tickets, logs, and
+              documentation to classify, diagnose, summarise, and recommend next
+              actions.
+            </p>
+          </div>
+          <div class="card card-dark reveal">
+            <div class="metric-label">Tomorrow</div>
+            <h3 style="color: white">Intelligent operations</h3>
+            <p style="color: #d1d5db">
+              AI as an operator within guardrails: testing, validating,
+              correcting, documenting, and escalating only the true edge cases.
+            </p>
+          </div>
+        </div>
+
+        <p class="reveal" style="margin-top: 1.8rem; color: #cbd5e1">
+          The shift is clear: AI is moving from
+          <strong>assistant → actor → operator</strong>.
+        </p>
+      </div>
+
+      <div
+        class="slide"
+        data-notes="This slide creates urgency. Anchor the shift in SAP’s own roadmap and use the scale numbers to make it feel immediate."
+      >
+        <div
+          class="float-shape light-slide-deco"
+          style="width: 340px; height: 340px; bottom: -90px; left: -100px"
+        ></div>
+        <p class="kicker reveal">SAP’s 2026 AI Roadmap</p>
+        <h2 class="reveal">
+          The ecosystem is already moving to a
+          <span class="accent">suite-wide agentic model</span>
+        </h2>
+
+        <p class="reveal" style="max-width: 1000px">
+          SAP’s 1H 2026 SuccessFactors release expands Joule across recruiting,
+          workforce administration, payroll, learning, performance, and talent
+          development.
+        </p>
+
+        <div class="grid-4">
+          <div class="card reveal">
+            <h3>Joule’s evolution</h3>
+            <p style="margin-bottom: 0">
+              The direction is no longer experimental. SAP is positioning
+              agentic AI as a suite-level operating capability.
+            </p>
+          </div>
+          <div class="card reveal">
+            <h3>Scale of change</h3>
+            <p style="margin-bottom: 0">
+              As of Q1 2026, SAP reported more than 40 specialised agents and
+              over 2,400 Joule Skills.
+            </p>
+          </div>
+          <div class="card reveal">
+            <h3>Specialised HR agents</h3>
+            <p style="margin-bottom: 0">
+              Career and Talent Development, HR Service, Payroll, and People
+              Intelligence use cases are already being framed into real
+              workflows.
+            </p>
+          </div>
+          <div class="card reveal">
+            <h3>What that means for us</h3>
+            <p style="margin-bottom: 0">
+              SAP is moving now. The only real question is whether our clients
+              will be ready.
+            </p>
+          </div>
+        </div>
+
+        <div class="urgent-box reveal">
+          SAP is moving now.
+          <br />
+          Readiness is becoming the differentiator.
+        </div>
+
+        <p
+          class="source-note reveal"
+          title="https://news.sap.com/2026/04/sap-successfactors-1h-2026-release/ | https://news.sap.com/2026/04/sap-business-ai-release-highlights-q1-2026/"
+        >
+          Sources: SAP News — SuccessFactors 1H 2026 release; SAP Business AI
+          Q1 2026 highlights.
+        </p>
+      </div>
+
+      <div
+        class="slide dark-slide"
+        data-notes="This is the key strategic pivot. AI does not reduce the value of AMS. It increases it because AMS makes the environment usable, trusted, and scalable."
+      >
+        <p class="kicker reveal">The AMS AI-Readiness Opportunity</p>
+        <h2 class="reveal">
+          AI tools are only as good as the
+          <span class="accent">data, permissions, and configuration</span>
+          beneath them
+        </h2>
+
+        <p class="statement reveal">
+          In the AI era, AMS becomes the function that makes automation usable,
+          trusted, and scalable.
+        </p>
+
+        <div class="grid-3">
+          <div class="card card-dark reveal">
+            <h3 style="color: white">The bottleneck</h3>
+            <p style="color: #d1d5db">
+              Poor data quality, weak job and position structures, outdated time
+              configuration, and misaligned role-based permissions will
+              undermine SAP’s new AI capabilities.
+            </p>
+          </div>
+          <div class="card card-dark reveal">
+            <h3 style="color: white">The AMS mandate</h3>
+            <p style="color: #d1d5db">
+              We must proactively prepare client environments now so they can
+              switch Joule on with confidence tomorrow.
+            </p>
+          </div>
+          <div class="card card-dark reveal">
+            <h3 style="color: white">Strategic implication</h3>
+            <p style="color: #d1d5db">
+              AI does not reduce the importance of AMS. It makes AMS more
+              valuable because readiness becomes the new barrier to adoption.
+            </p>
+          </div>
+        </div>
+
+        <p
+          class="source-note reveal"
+          title="https://sapinsider.org/articles/new-joule-agents-coming-to-bolster-ai-in-sap-successfactors/ | https://community.sap.com/t5/human-capital-management-blog-posts-by-sap/successfactors-joule-transaction-navigational-rbp-groups-how-is-this/ba-p/14109173"
+        >
+          Sources: SAPinsider on new Joule agents; SAP Community on Joule
+          navigation and role-based permission considerations.
+        </p>
+      </div>
+
+      <div
+        class="slide"
+        data-notes="This is where external proof matters. Use the numbers to show this is not just a technology story; it is a delivery and competitiveness story."
+      >
+        <p class="kicker reveal">The Hard Metrics</p>
+        <h2 class="reveal">
+          AI is not just a technology story.
+          <span class="accent">It is an efficiency story.</span>
+        </h2>
+
+        <div class="grid-4">
+          <div class="card reveal">
+            <div class="metric-huge">4.87 hrs</div>
+            <div class="metric-label">Saved per incident</div>
+            <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
+              With a 17.8% reduction in overall resolution time after GenAI
+              enablement.
+            </p>
+          </div>
+          <div class="card reveal">
+            <div class="metric-huge">30.5%</div>
+            <div class="metric-label">Faster resolution</div>
+            <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
+              For GenAI-enabled service teams versus non-GenAI teams.
+            </p>
+          </div>
+          <div class="card reveal">
+            <div class="metric-huge">65.7%</div>
+            <div class="metric-label">Ticket deflection</div>
+            <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
+              Reducing repetitive demand on human agents in AI-enabled support
+              environments.
+            </p>
+          </div>
+          <div class="card reveal">
+            <div class="metric-huge">20%+</div>
+            <div class="metric-label">Lower resolution cost</div>
+            <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
+              Alongside materially higher deflection in agentic AI-enabled
+              service operations.
+            </p>
+          </div>
+        </div>
+
+        <p class="reveal" style="margin-top: 1.4rem; max-width: 980px">
+          The takeaway is simple: intelligent automation changes cost-to-serve,
+          speed-to-resolution, and the competitiveness of the delivery model.
+        </p>
+
+        <p
+          class="source-note reveal"
+          title="https://www.solarwinds.com/company/newsroom/press-releases/state-of-itsm-2025 | https://cio.economictimes.indiatimes.com/news/artificial-intelligence/ai-in-it-service-management-freshservice-report-2025/124380650 | https://itbrief.asia/story/agentic-ai-helps-firms-boost-cx-satisfaction-cut-costs-per-case"
+        >
+          Sources: SolarWinds State of ITSM 2025; Freshservice / ET CIO 2025;
+          ITBrief Asia on agentic AI in service operations.
+        </p>
+      </div>
+
+      <div
+        class="slide"
+        data-notes="Now connect external efficiency data to your commercial thesis: margin improvement and a shift towards higher-value work."
+      >
+        <p class="kicker reveal">The Margin & Value Shift</p>
+        <h2 class="reveal">
+          AMS moves from reactive support to an
+          <span class="accent">intelligent service partner</span>
+        </h2>
+
+        <div class="grid-3">
+          <div class="card reveal">
+            <h3>Lower cost to serve</h3>
+            <p>
+              Automation removes thousands of consultant hours spent on
+              repetitive triage and shortens the path to resolution.
+            </p>
+          </div>
+          <div class="card reveal">
+            <h3>Margin growth</h3>
+            <p>
+              We can deliver the same or better outcomes with leaner, more
+              focused effort and better operating leverage.
+            </p>
+          </div>
+          <div class="card reveal">
+            <h3>Reinvesting time</h3>
+            <p>
+              Freed capacity moves into advisory, optimisation, architecture,
+              and higher-value client work.
+            </p>
+          </div>
+        </div>
+
+        <p class="reveal" style="margin-top: 1.4rem; max-width: 980px">
+          This is the evolution: AMS becomes less break-fix, more proactive,
+          more strategic, and more commercially valuable.
+        </p>
+      </div>
+
+      <div
+        class="slide"
+        data-notes="This is your proof-of-concept slide. It turns the strategy from theory into evidence."
+      >
+        <p class="kicker reveal">JobFit: The Proof of Concept</p>
+        <h2 class="reveal">
+          This strategy is not theoretical.
+          <span class="accent">I have already started building it.</span>
+        </h2>
+
+        <div class="grid-2">
+          <div class="card reveal">
+            <h3>What JobFit is</h3>
+            <p>
+              An AI-powered CV screening SaaS designed for unbiased, compliant,
+              and rapid hiring.
+            </p>
+            <ul class="mini-list">
+              <li>Built in record time</li>
+              <li>Already delivering measurable client value</li>
+              <li>Designed as recurring SaaS, not pure consulting effort</li>
+            </ul>
+          </div>
+
+          <div class="card reveal">
+            <h3>Why it matters</h3>
+            <p>
+              JobFit proves a repeatable model:
+              <strong
+                >real client problem + rapid AI build + SaaS packaging</strong
+              >
+              = scalable revenue with minimal ongoing consultant involvement.
+            </p>
+          </div>
+        </div>
+
+        <p class="reveal" style="margin-top: 1.5rem; max-width: 980px">
+          The lesson is simple: when we combine delivery insight with rapid
+          prototyping, we can create funded, repeatable solutions.
+        </p>
+      </div>
+
+      <div
+        class="slide dark-slide"
+        data-notes="This is the operating model. Make it feel practical, fast, and disciplined."
+      >
+        <p class="kicker reveal">The Prototype Factory</p>
+        <h2 class="reveal">
+          A repeatable engine for <span class="accent">funded innovation</span>
+        </h2>
+
+        <p class="reveal" style="max-width: 980px">
+          Identify an AMS client problem, build a prototype in one week,
+          validate early, secure buy-in, then productise and scale.
+        </p>
+
+        <div class="blueprint reveal">
+          <div class="step">Identify</div>
+          <div class="arrow">&rarr;</div>
+          <div class="step">Prototype</div>
+          <div class="arrow">&rarr;</div>
+          <div class="step">Validate</div>
+          <div class="arrow">&rarr;</div>
+          <div class="step">Fund</div>
+          <div class="arrow">&rarr;</div>
+          <div class="step">Productise</div>
+          <div class="arrow">&rarr;</div>
+          <div class="step">Scale</div>
+        </div>
+
+        <div class="grid-4">
+          <div class="card card-dark reveal">
+            <h3 style="color: white">Why it works</h3>
+            <p style="color: #d1d5db; margin-bottom: 0">
+              Client validation happens before major development investment.
+            </p>
+          </div>
+          <div class="card card-dark reveal">
+            <h3 style="color: white">Current pipeline</h3>
+            <p style="color: #d1d5db; margin-bottom: 0">
+              System health monitors, data integrity checkers, compliance review
+              tools, and burnout predictors.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="slide"
+        data-notes="This slide is about distribution advantage. The products matter, but the existing client base is what makes scaling realistic."
+      >
+        <div
+          class="float-shape light-slide-deco"
+          style="
+            width: 520px;
+            height: 520px;
+            top: -220px;
+            right: -220px;
+          "
+        ></div>
+        <p class="kicker reveal">The White Space Opportunity</p>
+        <h2 class="reveal">
+          AMS is our lowest-friction
+          <span class="accent">distribution channel for innovation</span>
+        </h2>
+
+        <div class="grid-4">
+          <div class="card reveal">
+            <h3>Module gaps</h3>
+            <p style="margin-bottom: 0">
+              There is major white space across existing clients in Performance
+              & Goals, Compensation, Learning, and Work Zone.
+            </p>
+          </div>
+          <div class="card reveal">
+            <h3>The captive market</h3>
+            <p style="margin-bottom: 0">
+              Every existing AMS client is already a warm lead for new
+              AI-enabled solutions.
+            </p>
+          </div>
+          <div class="card reveal">
+            <h3>Our unfair advantage</h3>
+            <p style="margin-bottom: 0">
+              We already own the relationships, understand the pain points, and
+              see the patterns earlier than anyone else.
+            </p>
+          </div>
+          <div class="card reveal">
+            <h3>Market positioning</h3>
+            <p style="margin-bottom: 0">
+              This is how we secure first-mover advantage as the premier
+              AI-enabled SuccessFactors support partner in the region.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="slide dark-slide"
+        data-notes="Be measured here. Mature strategy acknowledges risk and answers it calmly."
+      >
+        <p class="kicker reveal">Risks & Mitigations</p>
+        <h2 class="reveal">
+          The risks are real, but they are
+          <span class="accent">manageable by design</span>
+        </h2>
+
+        <div class="grid-4">
+          <div class="card card-dark reveal">
+            <h3 style="color: white">Capacity constraints</h3>
+            <p style="color: #d1d5db; margin-bottom: 0">
+              Cross-training and targeted hiring ensure AMS delivery quality
+              never dips while we innovate.
+            </p>
+          </div>
+          <div class="card card-dark reveal">
+            <h3 style="color: white">Data privacy (POPIA)</h3>
+            <p style="color: #d1d5db; margin-bottom: 0">
+              Responsible-by-design controls must be built into every prototype
+              from day one, especially for high-compliance clients.
+            </p>
+          </div>
+          <div class="card card-dark reveal">
+            <h3 style="color: white">SaaS adoption</h3>
+            <p style="color: #d1d5db; margin-bottom: 0">
+              Pilot programmes and internal client champions can create early
+              traction before wider roll-out.
+            </p>
+          </div>
+          <div class="card card-dark reveal">
+            <h3 style="color: white">Consultant resistance</h3>
+            <p style="color: #d1d5db; margin-bottom: 0">
+              Clear upskilling paths position AI as a career enabler and force
+              multiplier, not a replacement.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="slide"
+        data-notes="The ask should feel earned by now. Lead with business enablement, then close with title formalisation."
+      >
+        <p class="kicker reveal">The Ask</p>
+        <h2 class="reveal">
+          What I need to <span class="accent">scale this properly</span>
+        </h2>
+
+        <ul class="ask-list">
+          <li class="reveal">
+            <span class="ask-number">1</span>
+            <span>
+              <strong>Guidance:</strong> A seat at the table in leadership and
+              executive client discussions so I can hear challenges first-hand
+              and identify prototyping opportunities.
+            </span>
+          </li>
+          <li class="reveal">
+            <span class="ask-number">2</span>
+            <span>
+              <strong>Assistance:</strong> Leadership support in positioning and
+              selling these innovation solutions to existing client executives.
+            </span>
+          </li>
+          <li class="reveal">
+            <span class="ask-number">3</span>
+            <span>
+              <strong>Endorsement:</strong> Formal backing for the Prototype
+              Factory as an official strategic initiative.
+            </span>
+          </li>
+          <li class="reveal">
+            <span class="ask-number">4</span>
+            <span>
+              <strong>Resourcing:</strong> Approval to cross-train, dedicate
+              capacity to product development, and hire where needed.
+            </span>
+          </li>
+          <li class="reveal">
+            <span class="ask-number">5</span>
+            <span>
+              <strong>The title:</strong> Associate Manager — formalising the
+              leadership, commercial drive, and innovation I am already
+              executing.
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <div
+        class="slide dark-slide"
+        data-notes="Slow down here. This is the close. Let the final line land before opening to discussion."
+      >
+        <p class="kicker reveal">Closing Vision</p>
+        <p class="quote-text reveal">
+          Back a model that is
+          <span class="accent">already running</span>,
+          scale it across the portfolio,
+          and let me lead the team that delivers it.
+        </p>
+        <p class="sub-quote reveal">
+          AMS is the firm’s closest, most consistent touchpoint with clients.
+          That proximity is our best source of insight, our best route to
+          adoption, and our best platform for AI-led growth.
+        </p>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button
+        class="btn-icon"
+        onclick="toggleNotes()"
+        title="Speaker Notes"
+      >
+        &#9776;
+      </button>
+      <button onclick="prevSlide()">&#8592; Prev</button>
+      <button onclick="nextSlide()">Next &#8594;</button>
+    </div>
+
+    <div id="notes-panel">
+      <h4>Speaker Notes</h4>
+      <p id="notes-content"></p>
+    </div>
+
+    <script>
+      let currentSlide = 0;
+      let isAnimating = false;
+
+      const slides = document.querySelectorAll(".slide");
+      const progress = document.getElementById("progress");
+      const slideNum = document.getElementById("slide-number");
+      const notesPanel = document.getElementById("notes-panel");
+      const notesContent = document.getElementById("notes-content");
+
+      let notesOpen = false;
+
+      function updateProgress() {
+        const pct = ((currentSlide + 1) / slides.length) * 100;
+        progress.style.width = pct + "%";
+      }
+
+      function updateSlideNumber() {
+        const cur = String(currentSlide + 1).padStart(2, "0");
+        const total = String(slides.length).padStart(2, "0");
+        slideNum.textContent = `${cur} / ${total}`;
+
+        if (slides[currentSlide].classList.contains("dark-slide")) {
+          slideNum.classList.add("on-dark");
+        } else {
+          slideNum.classList.remove("on-dark");
+        }
+      }
+
+      function updateNotes() {
+        const note =
+          slides[currentSlide].dataset.notes || "No notes for this slide.";
+        notesContent.textContent = note;
+      }
+
+      function showSlide(newIndex, direction) {
+        if (isAnimating) return;
+        if (newIndex < 0 || newIndex >= slides.length) return;
+
+        isAnimating = true;
+
+        const oldSlide = slides[currentSlide];
+        const exitClass = direction === "next" ? "exit-up" : "exit-down";
+
+        oldSlide.classList.add(exitClass);
+        oldSlide.classList.remove("active");
+
+        currentSlide = newIndex;
+        const newSlide = slides[currentSlide];
+        newSlide.classList.add("active");
+
+        updateProgress();
+        updateSlideNumber();
+        updateNotes();
+
+        setTimeout(() => {
+          oldSlide.classList.remove(exitClass);
+          isAnimating = false;
+        }, 700);
+      }
+
+      function nextSlide() {
+        if (currentSlide < slides.length - 1) {
+          showSlide(currentSlide + 1, "next");
+        }
+      }
+
+      function prevSlide() {
+        if (currentSlide > 0) {
+          showSlide(currentSlide - 1, "prev");
+        }
+      }
+
+      function toggleNotes() {
+        notesOpen = !notesOpen;
+        notesPanel.classList.toggle("open", notesOpen);
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === " ") {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          prevSlide();
+        } else if (e.key === "n" || e.key === "N") {
+          toggleNotes();
+        } else if (e.key === "Escape") {
+          if (notesOpen) toggleNotes();
+        }
+      });
+
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      document.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+      });
+
+      document.addEventListener("touchend", (e) => {
+        const dx = e.changedTouches[0].screenX - touchStartX;
+        const dy = e.changedTouches[0].screenY - touchStartY;
+
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+          if (dx < 0) nextSlide();
+          else prevSlide();
+        }
+      });
+
+      let wheelTimeout = false;
+
+      document.addEventListener(
+        "wheel",
+        (e) => {
+          if (wheelTimeout) return;
+
+          wheelTimeout = true;
+          setTimeout(() => (wheelTimeout = false), 1000);
+
+          if (e.deltaY > 30) nextSlide();
+          else if (e.deltaY < -30) prevSlide();
+        },
+        { passive: true }
+      );
+
+      const canvas = document.getElementById("particles");
+      const ctx = canvas.getContext("2d");
+
+      let particles = [];
+      const PARTICLE_COUNT = 60;
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+
+      class Particle {
+        constructor() {
+          this.reset();
+        }
+
+        reset() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 2 + 0.5;
+          this.speedX = (Math.random() - 0.5) * 0.4;
+          this.speedY = (Math.random() - 0.5) * 0.4;
+          this.opacity = Math.random() * 0.3 + 0.05;
+        }
+
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+
+          if (
+            this.x < -10 ||
+            this.x > canvas.width + 10 ||
+            this.y < -10 ||
+            this.y > canvas.height + 10
+          ) {
+            this.reset();
+          }
+        }
+
+        draw() {
+          const isDark = slides[currentSlide].classList.contains("dark-slide");
+
+          const color = isDark
+            ? `rgba(255, 255, 255, ${this.opacity})`
+            : `rgba(11, 43, 70, ${this.opacity * 0.5})`;
+
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = color;
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push(new Particle());
+      }
+
+      function drawLines() {
+        const isDark = slides[currentSlide].classList.contains("dark-slide");
+
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 150) {
+              const alpha = (1 - dist / 150) * 0.08;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = isDark
+                ? `rgba(255, 255, 255, ${alpha})`
+                : `rgba(11, 43, 70, ${alpha})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach((p) => {
+          p.update();
+          p.draw();
+        });
+
+        drawLines();
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+
+      updateProgress();
+      updateSlideNumber();
+      updateNotes();
+    </script>
+  </body>
+</html>
