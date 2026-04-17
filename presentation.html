@@ -345,11 +345,75 @@
         margin-top: 1.6rem;
       }
 
+      /* Flywheel responsive layout */
+      .flywheel-layout {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3.5rem;
+        margin-top: 1.2rem;
+      }
+
+      .flywheel-svg {
+        width: min(559px, 46vw);
+        height: auto;
+        flex-shrink: 0;
+      }
+
+      .flywheel-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        flex: 1;
+        max-width: 420px;
+      }
+
+      @media (max-width: 1100px) {
+        .flywheel-layout {
+          gap: 2rem;
+        }
+        .flywheel-svg {
+          width: min(440px, 44vw);
+        }
+      }
+
       @media (max-width: 900px) {
         .grid-2,
         .grid-3,
         .grid-4 {
           grid-template-columns: 1fr;
+        }
+
+        .flywheel-layout {
+          flex-direction: column;
+          gap: 1.5rem;
+          align-items: center;
+        }
+
+        .flywheel-svg {
+          width: min(380px, 70vw);
+        }
+
+        .flywheel-cards {
+          max-width: 100%;
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+
+        .flywheel-cards .card {
+          flex: 1;
+          min-width: 200px;
+        }
+
+        .card {
+          padding: 1.3rem 1.4rem;
+        }
+
+        .slide {
+          overflow-y: auto;
+          justify-content: flex-start;
+          padding-top: 5%;
+          padding-bottom: 5%;
         }
       }
 
@@ -743,13 +807,17 @@
 
       @media (max-width: 768px) {
         .slide {
-          padding: 7% 6%;
+          padding: 6% 5%;
+        }
+
+        h2 {
+          font-size: clamp(1.4rem, 5.5vw, 2rem);
         }
 
         .blueprint {
           flex-direction: column;
           gap: 1rem;
-          text-align: centre;
+          text-align: center;
         }
 
         .arrow {
@@ -770,6 +838,127 @@
         .source-note {
           white-space: normal;
           font-size: 0.65rem;
+        }
+
+        .flywheel-svg {
+          width: min(320px, 78vw);
+        }
+
+        .flywheel-cards {
+          flex-direction: column;
+        }
+
+        .card {
+          padding: 1rem 1.2rem;
+        }
+
+        .metric-huge {
+          font-size: clamp(1.8rem, 6vw, 2.6rem);
+        }
+
+        .ask-list {
+          font-size: clamp(0.95rem, 3.5vw, 1.2rem);
+        }
+
+        .ask-number {
+          width: 36px;
+          height: 36px;
+          font-size: 1rem;
+        }
+
+        .statement {
+          font-size: clamp(1.1rem, 4vw, 1.6rem);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .slide {
+          padding: 8% 4%;
+        }
+
+        h1 {
+          font-size: clamp(1.6rem, 7vw, 2.4rem);
+        }
+
+        h2 {
+          font-size: clamp(1.2rem, 5.5vw, 1.7rem);
+        }
+
+        .kicker {
+          font-size: 0.7rem;
+        }
+
+        .card {
+          padding: 0.85rem 1rem;
+        }
+
+        .card h3 {
+          font-size: 0.95rem;
+          margin-bottom: 0.4rem;
+        }
+
+        .card p {
+          font-size: 0.85rem;
+        }
+
+        .metric-huge {
+          font-size: clamp(1.5rem, 7vw, 2.2rem);
+        }
+
+        .flywheel-svg {
+          width: min(280px, 85vw);
+        }
+
+        .flywheel-cards .card {
+          min-width: unset;
+        }
+
+        .controls button {
+          padding: 0.5rem 0.9rem;
+          font-size: 0.85rem;
+        }
+
+        .controls .btn-icon {
+          width: 36px;
+          height: 36px;
+        }
+
+        #slide-number {
+          font-size: 0.75rem;
+          padding: 0.3rem 0.6rem;
+        }
+
+        .ask-list {
+          font-size: clamp(0.85rem, 3.5vw, 1rem);
+        }
+
+        .ask-number {
+          width: 28px;
+          height: 28px;
+          font-size: 0.85rem;
+        }
+
+        .quote-text {
+          font-size: clamp(1.3rem, 6vw, 2rem);
+        }
+
+        .sub-quote {
+          font-size: 0.9rem;
+          margin-top: 1.2rem;
+        }
+
+        .tag {
+          font-size: 0.78rem;
+          padding: 0.4rem 0.7rem;
+        }
+
+        .blueprint {
+          padding: 1.2rem 1rem;
+        }
+
+        .urgent-box {
+          font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+          padding: 1rem 1.2rem;
         }
       }
     </style>
@@ -1409,9 +1598,9 @@
           AMS is the <span class="accent">flywheel</span> that powers the whole model
         </h2>
 
-        <div class="reveal" style="display: flex; justify-content: center; align-items: center; gap: 3.5rem; margin-top: 1.2rem;">
+        <div class="flywheel-layout reveal">
 
-          <svg viewBox="45 25 415 375" width="559" height="504" style="flex-shrink: 0;" aria-label="AMS Flywheel: Listen, Build, Scale">
+          <svg viewBox="45 25 415 375" class="flywheel-svg" aria-label="AMS Flywheel: Listen, Build, Scale">
             <defs>
               <marker id="fw-arrow" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
                 <polygon points="0 0, 10 3.5, 0 7" fill="#d32027"/>
@@ -1448,7 +1637,7 @@
             <text x="120" y="341" text-anchor="middle" fill="#94a3b8" font-size="10.5" font-family="Inter,sans-serif">Distribute</text>
           </svg>
 
-          <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 420px;">
+          <div class="flywheel-cards">
             <div class="card card-dark">
               <h3 style="color: white">Listen</h3>
               <p style="color: #d1d5db; margin-bottom: 0; font-size: 0.95rem;">
