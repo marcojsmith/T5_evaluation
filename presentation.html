@@ -217,22 +217,23 @@
         position: relative;
       }
 
-      h1 .accent::after,
-      h2 .accent::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: -4px;
-        width: 0;
-        height: 3px;
-        background: var(--epi-red);
-        border-radius: 2px;
-        transition: width 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.4s;
+      h1 .accent,
+      h2 .accent {
+        text-decoration: underline;
+        text-decoration-color: transparent;
+        text-decoration-thickness: 3px;
+        text-underline-offset: 5px;
+        transition: text-decoration-color 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.4s;
       }
 
-      .slide.active h1 .accent::after,
-      .slide.active h2 .accent::after {
-        width: 100%;
+      h1 .accent::after,
+      h2 .accent::after {
+        display: none;
+      }
+
+      .slide.active h1 .accent,
+      .slide.active h2 .accent {
+        text-decoration-color: var(--epi-red);
       }
 
       .slide .reveal {
@@ -586,21 +587,25 @@
         font-weight: bold;
         font-size: 1.8rem;
         z-index: 1;
-        animation: arrow-bounce 1.5s ease-in-out infinite;
         flex-shrink: 0;
         margin: 0 0.35rem;
       }
 
-      @keyframes arrow-bounce {
-        0%,
-        100% {
-          transform: translateX(0);
-        }
-
-        50% {
-          transform: translateX(6px);
-        }
+      @keyframes fw-dash {
+        0%      { stroke-dashoffset: 300; }
+        33%     { stroke-dashoffset: 0; }
+        33.01%  { stroke-dashoffset: 300; }
+        100%    { stroke-dashoffset: 300; }
       }
+
+      #fw-arc-a, #fw-arc-b, #fw-arc-c {
+        stroke-dasharray: 28 272;
+        stroke-dashoffset: 300;
+        animation: fw-dash 2.4s linear infinite;
+      }
+      #fw-arc-a { animation-delay: 0s; }
+      #fw-arc-b { animation-delay: 0.8s; }
+      #fw-arc-c { animation-delay: 1.6s; }
 
       .urgent-box {
         border: 3px solid var(--epi-red);
@@ -613,19 +618,9 @@
         border-radius: 12px;
         position: relative;
         background: rgba(211, 32, 39, 0.05);
-        animation: urgent-pulse 3s ease-in-out infinite;
+        box-shadow: 0 0 0 4px rgba(211, 32, 39, 0.12);
       }
 
-      @keyframes urgent-pulse {
-        0%,
-        100% {
-          box-shadow: 0 0 0 0 rgba(211, 32, 39, 0.2);
-        }
-
-        50% {
-          box-shadow: 0 0 0 12px rgba(211, 32, 39, 0);
-        }
-      }
 
       .statement {
         font-size: clamp(1.35rem, 2.1vw, 2.1rem);
@@ -1337,7 +1332,7 @@
 
         <div class="grid-4">
           <div class="card reveal">
-            <div class="metric-huge">4.87 hrs</div>
+            <div class="metric-huge" data-count="4.87" data-suffix=" hrs" data-decimals="2">4.87 hrs</div>
             <div class="metric-label">Saved per incident</div>
             <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
               GenAI summarises tickets, searches knowledge bases, drafts responses, and
@@ -1345,7 +1340,7 @@
             </p>
           </div>
           <div class="card reveal">
-            <div class="metric-huge">30.5%</div>
+            <div class="metric-huge" data-count="30.5" data-suffix="%" data-decimals="1">30.5%</div>
             <div class="metric-label">Faster resolution</div>
             <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
               AI agents auto-classify, prioritise, and route tickets — letting humans
@@ -1353,7 +1348,7 @@
             </p>
           </div>
           <div class="card reveal">
-            <div class="metric-huge">65.7%</div>
+            <div class="metric-huge" data-count="65.7" data-suffix="%" data-decimals="1">65.7%</div>
             <div class="metric-label">Ticket deflection</div>
             <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
               Self-service AI answering password resets, policy questions, and simple
@@ -1361,7 +1356,7 @@
             </p>
           </div>
           <div class="card reveal">
-            <div class="metric-huge">20%+</div>
+            <div class="metric-huge" data-count="20" data-suffix="%+" data-decimals="0">20%+</div>
             <div class="metric-label">Lower resolution cost</div>
             <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
               Lower-cost AI agents handling L1-L2 issues, with humans escalating
@@ -1610,12 +1605,15 @@
             <!-- Track ring -->
             <circle cx="250" cy="250" r="150" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2" stroke-dasharray="8 5"/>
 
-            <!-- Arc: Listen → Build (clockwise, 295° to 5°) -->
-            <path d="M 313,114 A 150,150 0 0,1 399,263" fill="none" stroke="#d32027" stroke-width="2.5" marker-end="url(#fw-arrow)"/>
-            <!-- Arc: Build → Scale (clockwise, 55° to 125°) -->
-            <path d="M 336,373 A 150,150 0 0,1 164,373" fill="none" stroke="#d32027" stroke-width="2.5" marker-end="url(#fw-arrow)"/>
-            <!-- Arc: Scale → Listen (clockwise, 175° to 245°) -->
-            <path d="M 101,263 A 150,150 0 0,1 187,114" fill="none" stroke="#d32027" stroke-width="2.5" marker-end="url(#fw-arrow)"/>
+            <!-- Arc: Listen → Build — background + animated dash -->
+            <path d="M 313,114 A 150,150 0 0,1 399,263" fill="none" stroke="rgba(211,32,39,0.28)" stroke-width="2.5" marker-end="url(#fw-arrow)"/>
+            <path id="fw-arc-a" d="M 313,114 A 150,150 0 0,1 399,263" fill="none" stroke="#d32027" stroke-width="2.5" pathLength="300"/>
+            <!-- Arc: Build → Scale — background + animated dash -->
+            <path d="M 336,373 A 150,150 0 0,1 164,373" fill="none" stroke="rgba(211,32,39,0.28)" stroke-width="2.5" marker-end="url(#fw-arrow)"/>
+            <path id="fw-arc-b" d="M 336,373 A 150,150 0 0,1 164,373" fill="none" stroke="#d32027" stroke-width="2.5" pathLength="300"/>
+            <!-- Arc: Scale → Listen — background + animated dash -->
+            <path d="M 101,263 A 150,150 0 0,1 187,114" fill="none" stroke="rgba(211,32,39,0.28)" stroke-width="2.5" marker-end="url(#fw-arrow)"/>
+            <path id="fw-arc-c" d="M 101,263 A 150,150 0 0,1 187,114" fill="none" stroke="#d32027" stroke-width="2.5" pathLength="300"/>
 
             <!-- Center label -->
             <text x="250" y="243" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="13" font-family="Inter,sans-serif" letter-spacing="2">AMS</text>
@@ -1838,6 +1836,23 @@
       let currentSlide = 0;
       let isAnimating = false;
 
+      function runCounters(slideEl) {
+        slideEl.querySelectorAll("[data-count]").forEach((el) => {
+          const target = parseFloat(el.dataset.count);
+          const suffix = el.dataset.suffix || "";
+          const decimals = parseInt(el.dataset.decimals || "0");
+          const duration = 1600;
+          const start = performance.now();
+          function tick(now) {
+            const t = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - t, 3);
+            el.textContent = (target * eased).toFixed(decimals) + suffix;
+            if (t < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        });
+      }
+
       const slides = document.querySelectorAll(".slide");
       const progress = document.getElementById("progress");
       const slideNum = document.getElementById("slide-number");
@@ -1950,6 +1965,10 @@
         updateProgress();
         updateSlideNumber();
         updateNotes();
+
+        if (newSlide.querySelector("[data-count]")) {
+          setTimeout(() => runCounters(newSlide), 500);
+        }
 
         setTimeout(() => {
           oldSlide.classList.remove(exitClass);
