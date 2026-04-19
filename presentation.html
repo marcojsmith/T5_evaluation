@@ -21,6 +21,9 @@
         --bg-alt: #f8fafc;
         --glass: rgba(255, 255, 255, 0.06);
         --glass-border: rgba(255, 255, 255, 0.12);
+        --accent-success: #059669;
+        --accent-warning: #d97706;
+        --accent-info: #0284c7;
       }
 
       * {
@@ -176,15 +179,16 @@
       }
 
       h1 {
-        font-size: clamp(2.6rem, 5vw, 4.8rem);
-        font-weight: 800;
+        font-size: clamp(2.6rem, 5vw, 5.2rem);
+        font-weight: 900;
         line-height: 1.08;
         margin-bottom: 1rem;
         color: var(--epi-blue);
+        letter-spacing: -1px;
       }
 
       h2 {
-        font-size: clamp(2rem, 4vw, 3.2rem);
+        font-size: clamp(2rem, 4vw, 3.6rem);
         font-weight: 800;
         margin-bottom: 1.4rem;
         color: var(--epi-blue);
@@ -305,6 +309,21 @@
         animation: pulse-glow 6s ease-in-out infinite alternate;
       }
 
+      .dark-slide::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 20px,
+          rgba(255, 255, 255, 0.015) 20px,
+          rgba(255, 255, 255, 0.015) 21px
+        );
+        pointer-events: none;
+        z-index: 0;
+      }
+
       @keyframes pulse-glow {
         0% {
           transform: scale(1);
@@ -335,14 +354,14 @@
       .grid-3 {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 1.4rem;
+        gap: 1.6rem;
         margin-top: 1.6rem;
       }
 
       .grid-4 {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 1.4rem;
+        gap: 1.6rem;
         margin-top: 1.6rem;
       }
 
@@ -423,6 +442,7 @@
         padding: 1.7rem;
         border-radius: 16px;
         border-left: 6px solid var(--epi-red);
+        border: 1px solid rgba(11, 43, 70, 0.25);
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
         transition:
           transform 0.35s cubic-bezier(0.23, 1, 0.32, 1),
@@ -467,6 +487,20 @@
       .card-dark:hover {
         background: rgba(255, 255, 255, 0.1);
         box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      }
+
+      .card-emphasis {
+        background: linear-gradient(135deg, var(--epi-blue) 0%, #1a4a6e 100%);
+        border-left: 6px solid var(--epi-red);
+        color: white;
+      }
+
+      .card-emphasis h3 {
+        color: white;
+      }
+
+      .card-emphasis p {
+        color: #e5e7eb;
       }
 
       .metric-huge {
@@ -546,6 +580,10 @@
         color: white;
       }
 
+      .tag:hover {
+        background: rgba(11, 43, 70, 0.15);
+      }
+
       .blueprint {
         display: flex;
         align-items: center;
@@ -592,20 +630,19 @@
       }
 
       @keyframes fw-dash {
-        0%      { stroke-dashoffset: 300; }
+        0%      { stroke-dashoffset: 300; opacity: 0; }
+        5%      { opacity: 1; }
         33%     { stroke-dashoffset: 0; }
         33.01%  { stroke-dashoffset: 300; }
-        100%    { stroke-dashoffset: 300; }
+        95%     { opacity: 1; }
+        100%    { stroke-dashoffset: 300; opacity: 0; }
       }
 
       #fw-arc-a, #fw-arc-b, #fw-arc-c {
         stroke-dasharray: 28 272;
-        stroke-dashoffset: 300;
-        animation: fw-dash 2.4s linear infinite;
+        stroke-dashoffset: 0;
+        opacity: 1;
       }
-      #fw-arc-a { animation-delay: 0s; }
-      #fw-arc-b { animation-delay: 0.8s; }
-      #fw-arc-c { animation-delay: 1.6s; }
 
       .urgent-box {
         border: 3px solid var(--epi-red);
@@ -619,6 +656,11 @@
         position: relative;
         background: rgba(211, 32, 39, 0.05);
         box-shadow: 0 0 0 4px rgba(211, 32, 39, 0.12);
+      }
+
+      .dark-slide .urgent-box {
+        color: white;
+        background: rgba(211, 32, 39, 0.15);
       }
 
 
@@ -708,6 +750,9 @@
         white-space: nowrap;
         opacity: 0.9;
         z-index: 15;
+        background: rgba(0, 0, 0, 0.03);
+        padding: 0.3rem 0.8rem;
+        border-radius: 4px;
       }
 
       .dark-slide .source-note {
@@ -978,11 +1023,11 @@
           class="reveal"
           style="
             font-size: clamp(1.2rem, 1.9vw, 1.7rem);
-            max-width: 840px;
+            /* max-width: 840px; */
             margin-top: 0.6rem;
           "
         >
-          A strategy to strengthen delivery, improve margin, and position EPI-USE Africa as the premier AI-enabled SuccessFactors support partner in the region.
+          Strengthen delivery, improve margin, and position EPI-USE Africa<br /> as the premier AI-enabled SuccessFactors support partner in the region.
         </p>
         <p
           class="reveal"
@@ -997,30 +1042,21 @@
         data-notes="Open with conviction. AMS is not a back-office support function in this story; it is our closest channel to trust, insight, and adoption."
       >
         <h2 class="reveal">
-          AMS is our closest point of client trust.
+          AMS is where we earn our clients' <span class="accent">trust</span>.
           <br />
-          In the AI era, that becomes our
-          <span class="accent">unfair advantage</span>.
+          In the AI era, that foundation becomes our <span class="accent">unfair advantage</span>.
         </h2>
         <p
           class="reveal"
           style="
             font-size: clamp(1.2rem, 1.9vw, 1.7rem);
-            max-width: 980px;
+            /* max-width: 980px; */
             margin-top: 0.8rem;
           "
         >
-          SAP is already moving from <b>assistant-led</b> experiences to <b>agentic</b>,
-          workflow-level execution, whether clients are ready or not.
-        </p>
-        <p
-          class="reveal"
-          style="
-            font-size: clamp(1.1rem, 1.7vw, 1.45rem);
-            max-width: 900px;
-            color: #cbd5e1;
-          "
-        >
+          SAP is moving from <b>assistant-led</b> experiences to <b>agentic</b>, workflow-level execution, whether clients are ready or not.
+          <br />
+          <br />
           The opportunity is to <b>lead that shift</b> for our clients before the
           market forces it on them.
         </p>
@@ -1206,13 +1242,9 @@
       </div>
 
       <div
-        class="slide"
+        class="slide dark-slide"
         data-notes="This slide creates urgency. Anchor the shift in SAP’s own roadmap and use the scale numbers to make it feel immediate."
       >
-        <div
-          class="float-shape light-slide-deco"
-          style="width: 340px; height: 340px; bottom: -90px; left: -100px"
-        ></div>
         <p class="kicker reveal">SAP’s 2026 AI Roadmap</p>
         <h2 class="reveal">
           The ecosystem is already moving to a
@@ -1225,22 +1257,22 @@
           development.
         </p>
 
-        <div class="grid-4">
-          <div class="card reveal">
-            <h3>Joule’s evolution</h3>
+<div class="grid-4">
+          <div class="card card-dark reveal">
+            <h3>Joule's evolution</h3>
             <p style="margin-bottom: 0">
               The direction is no longer experimental. SAP is positioning
               agentic AI as a suite-level operating capability.
             </p>
           </div>
-          <div class="card reveal">
+          <div class="card card-dark reveal">
             <h3>Scale of change</h3>
             <p style="margin-bottom: 0">
               As of Q1 2026, SAP reported more than 40 specialised agents and
               over 2,400 Joule Skills.
             </p>
           </div>
-          <div class="card reveal">
+          <div class="card card-dark reveal">
             <h3>Specialised HR agents</h3>
             <p style="margin-bottom: 0">
               Career and Talent Development, HR Service, Payroll, and People
@@ -1248,7 +1280,7 @@
               workflows.
             </p>
           </div>
-          <div class="card reveal">
+          <div class="card card-dark reveal">
             <h3>What that means for us</h3>
             <p style="margin-bottom: 0">
               SAP is moving now. The only real question is whether our clients
@@ -1321,7 +1353,7 @@
       </div>
 
       <div
-        class="slide"
+        class="slide dark-slide"
         data-notes="This is where external proof matters. Use the numbers to show this is not just a technology story; it is a delivery and competitiveness story."
       >
         <p class="kicker reveal">The Hard Metrics</p>
@@ -1331,32 +1363,32 @@
         </h2>
 
         <div class="grid-4">
-          <div class="card reveal">
-            <div class="metric-huge" data-count="4.87" data-suffix=" hrs" data-decimals="2">4.87 hrs</div>
+          <div class="card card-dark reveal">
+            <div class="metric-huge">4.87 hrs</div>
             <div class="metric-label">Saved per incident</div>
             <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
               GenAI summarises tickets, searches knowledge bases, drafts responses, and
               pulls relevant logs — cutting 4.87 hours per incident.
             </p>
           </div>
-          <div class="card reveal">
-            <div class="metric-huge" data-count="30.5" data-suffix="%" data-decimals="1">30.5%</div>
+          <div class="card card-dark reveal">
+            <div class="metric-huge">30.5%</div>
             <div class="metric-label">Faster resolution</div>
             <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
               AI agents auto-classify, prioritise, and route tickets — letting humans
               focus on diagnosis, not triage.
             </p>
           </div>
-          <div class="card reveal">
-            <div class="metric-huge" data-count="65.7" data-suffix="%" data-decimals="1">65.7%</div>
+          <div class="card card-dark reveal">
+            <div class="metric-huge">65.7%</div>
             <div class="metric-label">Ticket deflection</div>
             <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
               Self-service AI answering password resets, policy questions, and simple
               requests — reducing human-agent demand by nearly two-thirds.
             </p>
           </div>
-          <div class="card reveal">
-            <div class="metric-huge" data-count="20" data-suffix="%+" data-decimals="0">20%+</div>
+          <div class="card card-dark reveal">
+            <div class="metric-huge">20%+</div>
             <div class="metric-label">Lower resolution cost</div>
             <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
               Lower-cost AI agents handling L1-L2 issues, with humans escalating
@@ -1430,9 +1462,9 @@
         </h2>
 
         <div class="grid-2">
-          <div class="card reveal" style="background: linear-gradient(135deg, #0b2b46 0%, #1a4a6e 100%); border-left: 6px solid #d32027; color: white;">
-            <h3 style="color: white;">What JobFit is</h3>
-            <p style="color: #e5e7eb;">
+          <div class="card card-emphasis reveal">
+            <h3>What JobFit is</h3>
+            <p>
               An AI-powered CV screening SaaS designed for unbiased, compliant,
               and rapid screening of applicants.
             </p>
@@ -1443,9 +1475,9 @@
             </ul>
           </div>
 
-          <div class="card reveal" style="background: linear-gradient(135deg, #0b2b46 0%, #1a4a6e 100%); border-left: 6px solid #d32027; color: white;">
-            <h3 style="color: white;">Why it matters</h3>
-            <p style="color: #e5e7eb;">
+          <div class="card card-emphasis reveal">
+            <h3>Why it matters</h3>
+            <p>
               JobFit proves a repeatable model:
               <strong
                 >real client problem + rapid AI build + SaaS packaging</strong
@@ -1663,18 +1695,9 @@
       </div>
 
       <div
-        class="slide"
+        class="slide dark-slide"
         data-notes="This slide is about distribution advantage. The products matter, but the existing client base is what makes scaling realistic."
       >
-        <div
-          class="float-shape light-slide-deco"
-          style="
-            width: 520px;
-            height: 520px;
-            top: -220px;
-            right: -220px;
-          "
-        ></div>
         <p class="kicker reveal">The White Space Opportunity</p>
         <h2 class="reveal">
           AMS is our lowest-friction
@@ -1682,28 +1705,28 @@
         </h2>
 
         <div class="grid-4">
-          <div class="card reveal">
+          <div class="card card-dark reveal">
             <h3>Module gaps</h3>
             <p style="margin-bottom: 0">
               There is major white space across existing clients in Performance
               & Goals, Compensation, Learning, and Work Zone.
             </p>
           </div>
-          <div class="card reveal">
+          <div class="card card-dark reveal">
             <h3>The captive market</h3>
             <p style="margin-bottom: 0">
               Every existing AMS client is already a warm lead for new
               AI-enabled solutions.
             </p>
           </div>
-          <div class="card reveal">
+          <div class="card card-dark reveal">
             <h3>Our unfair advantage</h3>
             <p style="margin-bottom: 0">
               We already own the relationships, understand the pain points, and
               see the patterns earlier than anyone else.
             </p>
           </div>
-          <div class="card reveal">
+          <div class="card card-dark reveal">
             <h3>Market positioning</h3>
             <p style="margin-bottom: 0">
               This is how we secure first-mover advantage as the premier
