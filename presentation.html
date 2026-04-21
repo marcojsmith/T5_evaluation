@@ -803,37 +803,6 @@
         font-size: 1.2rem;
       }
 
-      #notes-panel {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.92);
-        backdrop-filter: blur(16px);
-        color: #e5e7eb;
-        padding: 1.5rem 3rem;
-        font-size: 1rem;
-        line-height: 1.6;
-        z-index: 300;
-        transform: translateY(100%);
-        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-        max-height: 30vh;
-        overflow-y: auto;
-        border-top: 2px solid var(--epi-red);
-      }
-
-      #notes-panel.open {
-        transform: translateY(0);
-      }
-
-      #notes-panel h4 {
-        color: var(--epi-red);
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        font-size: 0.75rem;
-        margin-bottom: 0.5rem;
-      }
-
       .float-shape {
         position: absolute;
         border-radius: 50%;
@@ -1001,6 +970,87 @@
           padding: 1rem 1.2rem;
         }
       }
+
+      /* ─── AGENDA SLIDE ─────────────────────────────── */
+      .agenda-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .agenda-card {
+        display: flex;
+        align-items: center;
+        gap: 1.6rem;
+        padding: 0.6rem 0;
+      }
+
+      .agenda-num {
+        font-size: 2.2rem;
+        font-weight: 900;
+        color: var(--epi-red);
+        width: 3rem;
+        flex-shrink: 0;
+        line-height: 1;
+        letter-spacing: -1px;
+      }
+
+      .agenda-section-name {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 0;
+      }
+
+      /* ─── SECTION BAR ───────────────────────────────── */
+      #section-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 190;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.7rem 2rem;
+        transform: translateY(-100%);
+        transition: transform 0.85s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      #section-bar.visible {
+        transform: translateY(0);
+      }
+
+      .section-bar-item {
+        font-size: 0.72rem;
+        font-weight: 500;
+        padding: 0.32rem 0.85rem;
+        border-radius: 999px;
+        white-space: nowrap;
+        transition: background 0.4s, color 0.4s, font-weight 0.3s;
+      }
+
+      #section-bar.on-dark .section-bar-item {
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      #section-bar.on-light .section-bar-item {
+        color: rgba(11, 43, 70, 0.3);
+      }
+
+      #section-bar.on-dark .section-bar-item.active {
+        background: rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 700;
+      }
+
+      #section-bar.on-light .section-bar-item.active {
+        background: rgba(11, 43, 70, 0.1);
+        color: rgba(11, 43, 70, 0.85);
+        font-weight: 700;
+      }
     </style>
   </head>
   <body>
@@ -1009,6 +1059,13 @@
     <div id="slide-number">01 / 15</div>
     <div id="slide-list-overlay"></div>
     <div id="slide-list"></div>
+    <div id="section-bar" class="on-dark">
+      <div class="section-bar-item" data-section="0">My Background and My Present</div>
+      <div class="section-bar-item" data-section="1">Shifting Ground</div>
+      <div class="section-bar-item" data-section="2">The Real World</div>
+      <div class="section-bar-item" data-section="3">The Flywheel</div>
+      <div class="section-bar-item" data-section="4">Back the Model</div>
+    </div>
 
     <div id="deck">
       <div
@@ -1039,6 +1096,43 @@
 
       <div
         class="slide dark-slide"
+        data-notes="Walk through the five sections briefly. Signpost, not summary — 20 seconds maximum."
+      >
+        <p class="kicker reveal">Today's Presentation</p>
+        <h2 class="reveal" style="margin-bottom: 0.4rem;">What we're <span class="accent">covering</span></h2>
+
+        <div class="agenda-grid reveal">
+
+          <div class="agenda-card">
+            <div class="agenda-num">01</div>
+            <div class="agenda-section-name">My Background and My Present</div>
+          </div>
+
+          <div class="agenda-card">
+            <div class="agenda-num">02</div>
+            <div class="agenda-section-name">Shifting Ground</div>
+          </div>
+
+          <div class="agenda-card">
+            <div class="agenda-num">03</div>
+            <div class="agenda-section-name">The Real World</div>
+          </div>
+
+          <div class="agenda-card">
+            <div class="agenda-num">04</div>
+            <div class="agenda-section-name">The Flywheel</div>
+          </div>
+
+          <div class="agenda-card">
+            <div class="agenda-num">05</div>
+            <div class="agenda-section-name">Back the Model</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div
+        class="slide dark-slide"
         data-notes="Open with conviction. AMS is not a back-office support function in this story; it is our closest channel to trust, insight, and adoption."
       >
         <h2 class="reveal">
@@ -1059,6 +1153,51 @@
           <br />
           The opportunity is to <b>lead that shift</b> for our clients before the
           market forces it on them.
+        </p>
+      </div>
+
+      <div
+        class="slide"
+        data-notes="Keep this personal and humble. This is not a credentials dump — it is a glimpse of the maker behind the strategy. The Covid founding moment is a point of pride."
+      >
+        <div
+          class="float-shape light-slide-deco"
+          style="
+            width: 420px;
+            height: 420px;
+            top: -120px;
+            right: -140px;
+          "
+        ></div>
+        <p class="kicker reveal">Background</p>
+        <h2 class="reveal">
+          A <span class="accent">maker</span> by instinct, an operator by experience
+        </h2>
+
+        <div class="grid-2">
+          <div class="card reveal">
+            <h3>Builder DNA</h3>
+            <p>Industrial Engineering at Stellenbosch — trained to think in systems and solve for root causes.</p>
+            <ul class="mini-list">
+              <li>Built a Google Drive alternative in 2009, before that was a concept</li>
+              <li>A web-based cleaning agency, a prepaid meter monitor, a chore-and-rewards app, a modular multiplug</li>
+              <li>Proud owner of a few failed businesses — every one taught something worth keeping</li>
+            </ul>
+          </div>
+
+          <div class="card reveal">
+            <h3>The road to EPI-USE</h3>
+            <p>Business Analyst at Resolve Immix, a Microsoft ERP partner — multi-industry exposure, deep ERP process grounding — before joining EPI-USE in August 2018.</p>
+            <ul class="mini-list">
+              <li>Started in SuccessFactors Employee Central and Time Off</li>
+              <li>March 2020: formalised the AMS department — mid-Covid, from scratch</li>
+              <li>Six years building something robust, advisory-focused, and built for the long game</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="reveal" style="margin-top: 1.5rem; max-width: 980px; margin-bottom: 0;">
+          The maker instinct never went away. Today it powers a new chapter: building SaaS products that generate recurring revenue on top of the delivery foundation we have spent six years earning.
         </p>
       </div>
 
@@ -1934,20 +2073,8 @@
     </div>
 
     <div class="controls">
-      <button
-        class="btn-icon"
-        onclick="toggleNotes()"
-        title="Speaker Notes"
-      >
-        &#9776;
-      </button>
       <button onclick="prevSlide()">&#8592; Prev</button>
       <button onclick="nextSlide()">Next &#8594;</button>
-    </div>
-
-    <div id="notes-panel">
-      <h4>Speaker Notes</h4>
-      <p id="notes-content"></p>
     </div>
 
     <script>
@@ -1974,17 +2101,16 @@
       const slides = document.querySelectorAll(".slide");
       const progress = document.getElementById("progress");
       const slideNum = document.getElementById("slide-number");
-      const notesPanel = document.getElementById("notes-panel");
-      const notesContent = document.getElementById("notes-content");
       const slideList = document.getElementById("slide-list");
       const slideListOverlay = document.getElementById("slide-list-overlay");
 
-      let notesOpen = false;
       let slideListOpen = false;
 
       const slideTitles = [
         "Title",
+        "Agenda",
         "AMS is our closest point of client trust",
+        "A maker by instinct, an operator by experience",
         "Why I am positioned to lead this now",
         "Earned trust across demanding environments",
         "The AI Landscape: Yesterday, Today, Tomorrow",
@@ -2003,6 +2129,43 @@
         "The Ask",
         "Closing Vision"
       ];
+
+      const AGENDA_SLIDE_IDX = 1;
+
+      const agendaSections = [
+        { slides: [2, 3, 4, 5] },
+        { slides: [6, 7, 8, 9] },
+        { slides: [10, 11, 12, 13] },
+        { slides: [14, 15, 16, 17] },
+        { slides: [18, 19, 20] },
+      ];
+
+      const sectionBarEl = document.getElementById('section-bar');
+
+      sectionBarEl.querySelectorAll('.section-bar-item').forEach((item, i) => {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', () => goToSlide(agendaSections[i].slides[0]));
+      });
+
+      function updateSectionBar() {
+        const isDark = slides[currentSlide].classList.contains('dark-slide');
+        sectionBarEl.classList.toggle('on-dark', isDark);
+        sectionBarEl.classList.toggle('on-light', !isDark);
+
+        const activeIdx = agendaSections.findIndex(s => s.slides.includes(currentSlide));
+        sectionBarEl.querySelectorAll('.section-bar-item').forEach((item, i) => {
+          item.classList.toggle('active', i === activeIdx);
+        });
+      }
+
+      function showSectionBar() {
+        updateSectionBar();
+        sectionBarEl.classList.add('visible');
+      }
+
+      function hideSectionBar() {
+        sectionBarEl.classList.remove('visible');
+      }
 
       function buildSlideList() {
         slideList.innerHTML = "";
@@ -2060,18 +2223,13 @@
         }
       }
 
-      function updateNotes() {
-        const note =
-          slides[currentSlide].dataset.notes || "No notes for this slide.";
-        notesContent.textContent = note;
-      }
-
       function showSlide(newIndex, direction) {
         if (isAnimating) return;
         if (newIndex < 0 || newIndex >= slides.length) return;
 
         isAnimating = true;
 
+        const oldIndex = currentSlide;
         const oldSlide = slides[currentSlide];
         const exitClass = direction === "next" ? "exit-up" : "exit-down";
 
@@ -2084,7 +2242,13 @@
 
         updateProgress();
         updateSlideNumber();
-        updateNotes();
+
+        // Section bar orchestration
+        if (newIndex > AGENDA_SLIDE_IDX) {
+          showSectionBar();
+        } else {
+          hideSectionBar();
+        }
 
         if (newSlide.querySelector("[data-count]")) {
           setTimeout(() => runCounters(newSlide), 500);
@@ -2108,11 +2272,6 @@
         }
       }
 
-      function toggleNotes() {
-        notesOpen = !notesOpen;
-        notesPanel.classList.toggle("open", notesOpen);
-      }
-
       document.addEventListener("keydown", (e) => {
         if (e.key === "ArrowRight" || e.key === " ") {
           e.preventDefault();
@@ -2120,10 +2279,7 @@
         } else if (e.key === "ArrowLeft") {
           e.preventDefault();
           prevSlide();
-        } else if (e.key === "n" || e.key === "N") {
-          toggleNotes();
         } else if (e.key === "Escape") {
-          if (notesOpen) toggleNotes();
           if (slideListOpen) closeSlideList();
         }
       });
@@ -2272,7 +2428,6 @@
 
       updateProgress();
       updateSlideNumber();
-      updateNotes();
     </script>
   </body>
 </html>
