@@ -644,6 +644,20 @@
         opacity: 1;
       }
 
+      .mindmap-node-s9 {
+        position: relative;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(129,140,248,0.35);
+        border-radius: 24px;
+        padding: 0.42rem 1rem;
+        font-size: clamp(0.72rem, 1.05vw, 0.88rem);
+        font-weight: 500;
+        color: #e2e8f0;
+        white-space: nowrap;
+        backdrop-filter: blur(8px);
+        z-index: 2;
+      }
+
       .urgent-box {
         border: 3px solid var(--epi-red);
         padding: 1.4rem 1.8rem;
@@ -668,7 +682,6 @@
         font-size: clamp(1.35rem, 2.1vw, 2.1rem);
         line-height: 1.34;
         font-weight: 700;
-        max-width: 980px;
       }
 
       .dark-slide .statement {
@@ -713,7 +726,6 @@
         text-align: centre;
         line-height: 1.22;
         font-weight: 800;
-        max-width: 980px;
         margin: 0 auto;
       }
 
@@ -732,27 +744,34 @@
 
       .sub-quote {
         text-align: centre;
-        max-width: 900px;
         margin: 1.8rem auto 0;
         color: #cbd5e1;
         font-size: 1.1rem;
       }
 
       .source-note {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 1.5rem;
+        display: none;
+      }
+
+      #source-slot {
         font-size: 0.72rem;
         line-height: 1.45;
         color: #94a3b8;
-        text-align: center;
+        text-align: right;
         white-space: nowrap;
         opacity: 0.9;
-        z-index: 15;
         background: rgba(0, 0, 0, 0.03);
         padding: 0.3rem 0.8rem;
         border-radius: 4px;
+        max-width: 360px;
+      }
+
+      #source-slot:empty {
+        display: none;
+      }
+
+      .on-dark-controls #source-slot {
+        color: rgba(255, 255, 255, 0.45);
       }
 
       .dark-slide .source-note {
@@ -766,7 +785,7 @@
         z-index: 200;
         display: flex;
         gap: 0.75rem;
-        align-items: centre;
+        align-items: center;
       }
 
       button {
@@ -798,8 +817,8 @@
         width: 44px;
         height: 44px;
         display: flex;
-        align-items: centre;
-        justify-content: centre;
+        align-items: center;
+        justify-content: center;
         font-size: 1.2rem;
       }
 
@@ -844,9 +863,10 @@
           bottom: 1.2rem;
         }
 
-        .source-note {
+        #source-slot {
           white-space: normal;
           font-size: 0.65rem;
+          max-width: 200px;
         }
 
         .flywheel-svg {
@@ -1051,6 +1071,66 @@
         color: rgba(11, 43, 70, 0.85);
         font-weight: 700;
       }
+
+      /* Slide 11 diagram animations */
+      .diag-bar {
+        transform-origin: bottom;
+        transform: scaleY(0);
+        transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .slide.active .diag-bar { transform: scaleY(1); }
+      .diag-bar-before { transition-delay: 0.2s; }
+      .diag-bar-after  { transition-delay: 0.4s; }
+
+      .diag-wedge-fill {
+        opacity: 0;
+        transition: opacity 0.8s ease 0.3s;
+      }
+      .slide.active .diag-wedge-fill { opacity: 1; }
+
+      .diag-line {
+        stroke-dasharray: 200;
+        stroke-dashoffset: 200;
+        transition: stroke-dashoffset 0.8s ease;
+      }
+      .diag-line-revenue { transition-delay: 0.2s; }
+      .diag-line-cost    { transition-delay: 0.4s; }
+      .slide.active .diag-line { stroke-dashoffset: 0; }
+
+      .diag-stack-seg {
+        transform-origin: bottom;
+        transform: scaleY(0);
+        transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .slide.active .diag-stack-seg { transform: scaleY(1); }
+      .diag-stack-seg:nth-child(1) { transition-delay: 0.15s; }
+      .diag-stack-seg:nth-child(2) { transition-delay: 0.30s; }
+      .diag-stack-seg:nth-child(3) { transition-delay: 0.45s; }
+      .diag-stack-seg:nth-child(4) { transition-delay: 0.60s; }
+      .diag-stack-seg:nth-child(5) { transition-delay: 0.75s; }
+      .diag-label-fade {
+        opacity: 0;
+        transition: opacity 0.5s ease 0.7s;
+      }
+      .slide.active .diag-label-fade { opacity: 1; }
+
+      /* Slide 11 card stagger — cards 2 & 3 delayed so audience appreciates each animation */
+      #slide-margin.active .card.reveal:nth-child(2) { transition-delay: 1.5s; }
+      #slide-margin.active .card.reveal:nth-child(3) { transition-delay: 3.0s; }
+
+      /* Delay card 2 (margin growth) diagram animations */
+      #slide-margin.active .card:nth-child(2) .diag-wedge-fill  { transition-delay: 1.8s; }
+      #slide-margin.active .card:nth-child(2) .diag-line-revenue { transition-delay: 2.0s; }
+      #slide-margin.active .card:nth-child(2) .diag-line-cost    { transition-delay: 2.3s; }
+      #slide-margin.active .card:nth-child(2) .diag-label-fade   { transition-delay: 2.6s; }
+
+      /* Delay card 3 (capacity) diagram animations */
+      #slide-margin.active .card:nth-child(3) .diag-stack-seg:nth-child(1) { transition-delay: 3.2s; }
+      #slide-margin.active .card:nth-child(3) .diag-stack-seg:nth-child(2) { transition-delay: 3.4s; }
+      #slide-margin.active .card:nth-child(3) .diag-stack-seg:nth-child(3) { transition-delay: 3.6s; }
+      #slide-margin.active .card:nth-child(3) .diag-stack-seg:nth-child(4) { transition-delay: 3.8s; }
+      #slide-margin.active .card:nth-child(3) .diag-stack-seg:nth-child(5) { transition-delay: 4.0s; }
+      #slide-margin.active .card:nth-child(3) .diag-label-fade              { transition-delay: 4.2s; }
     </style>
   </head>
   <body>
@@ -1084,7 +1164,7 @@
             margin-top: 0.6rem;
           "
         >
-          Strengthen delivery, improve margin, and position EPI-USE Africa<br /> as the premier AI-enabled SuccessFactors support partner in the region.
+          Smarter delivery. Better Margin. Premier AI-enabled SuccessFactors partner.
         </p>
         <p
           class="reveal"
@@ -1098,9 +1178,7 @@
         class="slide dark-slide"
         data-notes="Walk through the five sections briefly. Signpost, not summary — 20 seconds maximum."
       >
-        <p class="kicker reveal">Today's Presentation</p>
-        <h2 class="reveal" style="margin-bottom: 0.4rem;">What we're <span class="accent">covering</span></h2>
-
+      <h2 class="reveal" style="margin-bottom: 0.4rem;">What we'll be <span class="accent">covering</span></h2>
         <div class="agenda-grid reveal">
 
           <div class="agenda-card">
@@ -1144,15 +1222,11 @@
           class="reveal"
           style="
             font-size: clamp(1.2rem, 1.9vw, 1.7rem);
-            /* max-width: 980px; */
+            /* */
             margin-top: 0.8rem;
           "
         >
-          SAP is moving from <b>assistant-led</b> experiences to <b>agentic</b>, workflow-level execution, whether clients are ready or not.
-          <br />
-          <br />
-          The opportunity is to <b>lead that shift</b> for our clients before the
-          market forces it on them.
+          SAP is moving to agentic execution. Lead that shift for your clients — before the market does.
         </p>
       </div>
 
@@ -1176,29 +1250,28 @@
 
         <div class="grid-2">
           <div class="card reveal">
+            <h3>The road to EPI-USE</h3>
+            <ul class="mini-list">
+              <li>Business Analyst at Resolve Immix, a Microsoft ERP partner — multi-industry exposure</li>
+              <li>Joined EPI-USE in 2018</li>
+              <li>Started in EC and Time Off</li>
+              <li>March 2020: focused on building AMS</li>
+              <li>Six years of building a robust, advisory-focused Service Line.</li>
+            </ul>
+          </div>
+          
+          <div class="card reveal">
             <h3>Builder DNA</h3>
             <p>Industrial Engineering at Stellenbosch — trained to think in systems and solve for root causes.</p>
             <ul class="mini-list">
-              <li>Built a Google Drive alternative in 2009, before that was a concept</li>
-              <li>A web-based cleaning agency, a prepaid meter monitor, a chore-and-rewards app, a modular multiplug</li>
-              <li>Proud owner of a few failed businesses — every one taught something worth keeping</li>
-            </ul>
-          </div>
-
-          <div class="card reveal">
-            <h3>The road to EPI-USE</h3>
-            <p>Business Analyst at Resolve Immix, a Microsoft ERP partner — multi-industry exposure, deep ERP process grounding — before joining EPI-USE in August 2018.</p>
-            <ul class="mini-list">
-              <li>Started in SuccessFactors Employee Central and Time Off</li>
-              <li>March 2020: formalised the AMS department — mid-Covid, from scratch</li>
-              <li>Six years building something robust, advisory-focused, and built for the long game</li>
+              <li>Google Drive alternative — 2009</li>
+              <li>Cleaning agency, meter monitor, chore app, multiplug</li>
+              <li>Failed businesses — each one taught something</li>
             </ul>
           </div>
         </div>
 
-        <p class="reveal" style="margin-top: 1.5rem; max-width: 980px; margin-bottom: 0;">
-          The maker instinct never went away. Today it powers a new chapter: building SaaS products that generate recurring revenue on top of the delivery foundation we have spent six years earning.
-        </p>
+        
       </div>
 
       <div
@@ -1222,9 +1295,6 @@
         <div class="grid-2">
           <div class="card reveal">
             <h3>Current role</h3>
-            <p>
-              Managing client relationships, escalations, contracts, and operational excellence across complex AMS environments.
-            </p>
             <ul class="mini-list">
               <li>Driving delivery quality in live, high-pressure settings</li>
               <li>Bridging service, commercials, and client trust</li>
@@ -1236,9 +1306,6 @@
 
           <div class="card reveal">
             <h3>Key clients</h3>
-            <p>
-              Trusted across demanding environments including:
-            </p>
             <div class="tag-row">
               <span class="tag">Allan Gray</span>
               <span class="tag">Discovery</span>
@@ -1254,7 +1321,7 @@
               <span class="tag">UK Clients</span>
             </div>
             <p style="margin-top: 1rem; margin-bottom: 0.5rem;">
-              <strong>Notable clients:</strong>
+              <strong>Notable:</strong>
             </p>
             <div class="tag-row">
               <span class="tag">AGA</span>
@@ -1268,14 +1335,8 @@
           </div>
         </div>
 
-        <p class="reveal" style="margin-top: 1.5rem; max-width: 980px">
-          My focus is dual: deliver uncompromised excellence today, while building the AI-enabled products and operating model that will define tomorrow’s AMS offering.
-        </p>
-
-        <p class="reveal" style="max-width: 980px; margin-bottom: 0">
-          This presentation shows how we can scale AMS through intelligent
-          automation, and why I am the right leader to formalise that strategy
-          as an Associate Manager.
+<p class="reveal" style="margin-top: 1.5rem; ">
+          Managing client relationships, escalations, contracts, and operational excellence across complex AMS environments.
         </p>
       </div>
 
@@ -1293,22 +1354,19 @@
           <div class="card reveal">
             <h3>Operational excellence</h3>
             <p>
-              Consistently high SLA adherence, strong renewal momentum, and
-              meaningful escalation reduction across managed clients.
+              Consistent SLA adherence, strong renewal momentum, escalation reduction.
             </p>
           </div>
           <div class="card reveal">
             <h3>Commercial impact</h3>
             <p>
-              Deep involvement in proposals, complex contract negotiations, and
-              identifying upsell and white-space opportunities.
+              Proposals, contract costing, upsell, and identifying opportunities.
             </p>
           </div>
           <div class="card reveal">
             <h3>Leadership in action</h3>
             <p>
-              Already operating across delivery, commercials, relationships, and
-              innovation at Associate Manager level.
+              Operating across delivery, commercials, relationships and innovation.
             </p>
           </div>
         </div>
@@ -1317,20 +1375,19 @@
           <div class="card reveal">
             <h3>Discovery</h3>
             <p style="margin-bottom: 0">
-              Earned trust through consistent delivery in a demanding enterprise
-              environment.
+              Consistent delivery in a demanding environment.
             </p>
           </div>
           <div class="card reveal">
             <h3>Capitec</h3>
             <p style="margin-bottom: 0">
-              Demonstrated ability to manage delivery in a complex, regulated environment.
+              Delivery in a complex, regulated environment.
             </p>
           </div>
           <div class="card reveal">
             <h3>Allan Gray</h3>
             <p style="margin-bottom: 0">
-              Proven track record of managing escalations, driving operational excellence, and supporting commercial growth of the client.
+              Escalation management, operational excellence, commercial growth.
             </p>
           </div>
         </div>
@@ -1351,33 +1408,26 @@
             <div class="metric-label">Yesterday</div>
             <h3 style="color: white">The chat era</h3>
             <p style="color: #d1d5db">
-              AI as a conversational assistant: useful for research, drafting,
-              and troubleshooting, but still largely passive.
+              conversational assistant: useful for research, drafting, and troubleshooting.
             </p>
           </div>
           <div class="card card-dark reveal">
             <div class="metric-label">Today</div>
             <h3 style="color: white">The agentic shift</h3>
             <p style="color: #d1d5db">
-              AI as an active participant: reading tickets, logs, and
-              documentation to classify, diagnose, summarise, and recommend next
-              actions.
+              active participant: reading tickets, logs, and documentation to classify, diagnose, summarise.
             </p>
           </div>
           <div class="card card-dark reveal">
             <div class="metric-label">Tomorrow</div>
             <h3 style="color: white">Intelligent operations</h3>
             <p style="color: #d1d5db">
-              AI as an operator within guardrails: testing, validating,
-              correcting, documenting, and escalating only the true edge cases.
+              operator within guardrails: testing, validating, correcting, documenting, and escalating edge cases.
             </p>
           </div>
         </div>
 
-        <p class="reveal" style="margin-top: 1.8rem; color: #cbd5e1">
-          The shift is clear: AI is moving from
-          <strong>assistant → actor → operator</strong>.
-        </p>
+        
       </div>
 
       <div
@@ -1386,51 +1436,41 @@
       >
         <p class="kicker reveal">SAP’s 2026 AI Roadmap</p>
         <h2 class="reveal">
-          The ecosystem is already moving to a
-          <span class="accent">suite-wide agentic model</span>
+          SAP + Data + Joule = <span class="accent">suite-wide agentic model</span>
         </h2>
 
-        <p class="reveal" style="max-width: 1000px">
-          SAP’s 1H 2026 SuccessFactors release expands Joule across recruiting,
-          workforce administration, payroll, learning, performance, and talent
-          development.
-        </p>
+<p class="reveal">
+          Joule expands across recruiting, payroll, learning, performance, and talent in 1H 2026.
+         </p>
 
 <div class="grid-4">
           <div class="card card-dark reveal">
             <h3>Joule's evolution</h3>
             <p style="margin-bottom: 0">
-              The direction is no longer experimental. SAP is positioning
-              agentic AI as a suite-level operating capability.
+              Agentic AI is now a suite-level operating capability.
             </p>
           </div>
           <div class="card card-dark reveal">
             <h3>Scale of change</h3>
             <p style="margin-bottom: 0">
-              As of Q1 2026, SAP reported more than 40 specialised agents and
-              over 2,400 Joule Skills.
+              40+ specialised agents. 2,400+ Joule Skills.
             </p>
           </div>
           <div class="card card-dark reveal">
             <h3>Specialised HR agents</h3>
             <p style="margin-bottom: 0">
-              Career and Talent Development, HR Service, Payroll, and People
-              Intelligence use cases are already being framed into real
-              workflows.
+              Career, HR Service, Payroll, and People Intelligence — in real workflows.
             </p>
           </div>
           <div class="card card-dark reveal">
             <h3>What that means for us</h3>
             <p style="margin-bottom: 0">
-              SAP is moving now. The only real question is whether our clients
-              will be ready.
+              Readiness is the differentiator.
             </p>
           </div>
         </div>
 
-        <div class="urgent-box reveal">
-          Readiness is becoming the differentiator.
-        </div>
+        
 
         <p
           class="source-note reveal"
@@ -1446,49 +1486,80 @@
         data-notes="This is the key strategic pivot. AI does not reduce the value of AMS. It increases it because AMS makes the environment usable, trusted, and scalable."
       >
         <p class="kicker reveal">The AMS AI-Readiness Opportunity</p>
-        <h2 class="reveal">
-          AI tools are only as good as the
-          <span class="accent">data, permissions, and configuration</span>
-          beneath them
+        <h2 class="reveal" style="margin-bottom: 0.5rem;">
+          AI is only as good as the <span class="accent">foundations</span> beneath it
         </h2>
 
-        <p class="statement reveal">
-          In the AI era, AMS becomes the function that makes automation usable,
-          trusted, and scalable.
-        </p>
+        <!-- Mindmap infographic — circular orbit, 400px tall -->
+        <div class="reveal" style="position: relative; height: 400px; margin: 0.25rem 0;">
+          <!-- SVG lines — viewBox 0 0 1000 400, center 500,200, circle r≈155px SVG units -->
+          <svg style="position: absolute; inset: 0; width: 100%; height: 100%;" viewBox="0 0 1000 400" preserveAspectRatio="none">
+            <line x1="500" y1="200" x2="500" y2="35"  stroke="rgba(129,140,248,0.4)" stroke-width="1.5"/>
+            <line x1="500" y1="200" x2="610" y2="83"  stroke="rgba(129,140,248,0.4)" stroke-width="1.5"/>
+            <line x1="500" y1="200" x2="655" y2="200" stroke="rgba(129,140,248,0.4)" stroke-width="1.5"/>
+            <line x1="500" y1="200" x2="610" y2="317" stroke="rgba(129,140,248,0.4)" stroke-width="1.5"/>
+            <line x1="500" y1="200" x2="500" y2="365" stroke="rgba(129,140,248,0.4)" stroke-width="1.5"/>
+            <line x1="500" y1="200" x2="390" y2="317" stroke="rgba(129,140,248,0.4)" stroke-width="1.5"/>
+            <line x1="500" y1="200" x2="345" y2="200" stroke="rgba(129,140,248,0.4)" stroke-width="1.5"/>
+            <line x1="500" y1="200" x2="390" y2="83"  stroke="rgba(129,140,248,0.4)" stroke-width="1.5"/>
+          </svg>
 
-        <div class="grid-3">
-          <div class="card card-dark reveal">
-            <h3 style="color: white">The bottleneck</h3>
-            <p style="color: #d1d5db">
-              Poor data quality, weak job and position structures, outdated time
-              configuration, and misaligned role-based permissions will
-              undermine SAP’s new AI capabilities.
+          <!-- Center hub -->
+          <div style="
+            position: absolute; left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            box-shadow: 0 0 32px rgba(99,102,241,0.6), 0 0 70px rgba(99,102,241,0.2);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 2;
+          ">
+            <span style="font-size: clamp(0.6rem, 1vw, 0.72rem); color: rgba(255,255,255,0.7); letter-spacing: 0.06em; text-transform: uppercase;">SAP</span>
+            <span style="font-size: clamp(0.9rem, 1.5vw, 1.05rem); font-weight: 800; color: white; line-height: 1.1;">AI</span>
+          </div>
+
+          <!-- Nodes: near-circular orbit. rx=155 SVG, ry=165 SVG → ~equal px at typical viewport -->
+          <!-- Clean and current data (12:00) -->
+          <div style="position:absolute; left:50%; top:8.75%; transform:translate(-50%,-50%);" class="mindmap-node-s9">Clean &amp; Current Data</div>
+          <!-- System config (1:30) -->
+          <div style="position:absolute; left:61%; top:20.75%; transform:translate(-50%,-50%);" class="mindmap-node-s9">System Config</div>
+          <!-- Permissions (3:00) -->
+          <div style="position:absolute; left:65.5%; top:50%; transform:translate(-50%,-50%);" class="mindmap-node-s9">Permissions</div>
+          <!-- Business Processes (4:30) -->
+          <div style="position:absolute; left:61%; top:79.25%; transform:translate(-50%,-50%);" class="mindmap-node-s9">Business Processes</div>
+          <!-- 3rd party integrations (6:00) -->
+          <div style="position:absolute; left:50%; top:91.25%; transform:translate(-50%,-50%);" class="mindmap-node-s9">3rd Party Integrations</div>
+          <!-- Change management (7:30) -->
+          <div style="position:absolute; left:39%; top:79.25%; transform:translate(-50%,-50%);" class="mindmap-node-s9">Change Management</div>
+          <!-- User training (9:00) -->
+          <div style="position:absolute; left:34.5%; top:50%; transform:translate(-50%,-50%);" class="mindmap-node-s9">User Training</div>
+          <!-- Suite-wide usage (10:30) -->
+          <div style="position:absolute; left:39%; top:20.75%; transform:translate(-50%,-50%);" class="mindmap-node-s9">Suite-wide Usage</div>
+        </div>
+
+        <!-- Callout strip -->
+        <div class="grid-3 reveal" style="margin-top: 0.5rem; gap: 0.8rem;">
+          <div class="card card-dark" style="padding: 0.9rem 1.1rem;">
+            <h3 style="color: #818cf8; font-size: clamp(0.75rem, 1.1vw, 0.9rem); margin-bottom: 0.3rem;">The AMS Mandate</h3>
+            <p style="color: #d1d5db; font-size: clamp(0.7rem, 1vw, 0.82rem); margin: 0;">
+              Prepare client environments now — so they can switch Joule on with confidence.
             </p>
           </div>
-          <div class="card card-dark reveal">
-            <h3 style="color: white">The AMS mandate</h3>
-            <p style="color: #d1d5db">
-              We must proactively prepare client environments now so they can
-              switch Joule on with confidence tomorrow.
+          <div class="card card-dark" style="padding: 0.9rem 1.1rem;">
+            <h3 style="color: #818cf8; font-size: clamp(0.75rem, 1.1vw, 0.9rem); margin-bottom: 0.3rem;">Strategic Implication</h3>
+            <p style="color: #d1d5db; font-size: clamp(0.7rem, 1vw, 0.82rem); margin: 0;">
+              AI doesn't reduce AMS. It makes AMS <strong style="color:white;">more valuable</strong>.
             </p>
           </div>
-          <div class="card card-dark reveal">
-            <h3 style="color: white">Strategic implication</h3>
-            <p style="color: #d1d5db">
-              AI does not reduce the importance of AMS. It makes AMS more
-              valuable because readiness becomes the new barrier to adoption.
+          <div class="card card-dark" style="padding: 0.9rem 1.1rem;">
+            <h3 style="color: #818cf8; font-size: clamp(0.75rem, 1.1vw, 0.9rem); margin-bottom: 0.3rem;">BCG Market Signal</h3>
+            <p style="color: #d1d5db; font-size: clamp(0.7rem, 1vw, 0.82rem); margin: 0;">
+              <strong style="color:#818cf8;">$200B</strong> net new demand — <strong style="color:white;">75%</strong> of enterprises want a service provider to lead.
+              <span style="color:#6b7280; font-size:0.78em;"> BCG 2026</span>
             </p>
           </div>
         </div>
-
-        <p
-          class="source-note reveal"
-          title="https://sapinsider.org/articles/new-joule-agents-coming-to-bolster-ai-in-sap-successfactors/ | https://community.sap.com/t5/human-capital-management-blog-posts-by-sap/successfactors-joule-transaction-navigational-rbp-groups-how-is-this/ba-p/14109173"
-        >
-          Sources: SAPinsider on new Joule agents; SAP Community on Joule
-          navigation and role-based permission considerations.
-        </p>
       </div>
 
       <div
@@ -1505,53 +1576,41 @@
           <div class="card card-dark reveal">
             <div class="metric-huge">4.87 hrs</div>
             <div class="metric-label">Saved per incident</div>
-            <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
-              GenAI summarises tickets, searches knowledge bases, drafts responses, and
-              pulls relevant logs — cutting 4.87 hours per incident.
-            </p>
-          </div>
-          <div class="card card-dark reveal">
-            <div class="metric-huge">30.5%</div>
-            <div class="metric-label">Faster resolution</div>
-            <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
-              AI agents auto-classify, prioritise, and route tickets — letting humans
-              focus on diagnosis, not triage.
-            </p>
-          </div>
-          <div class="card card-dark reveal">
-            <div class="metric-huge">65.7%</div>
-            <div class="metric-label">Ticket deflection</div>
-            <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
-              Self-service AI answering password resets, policy questions, and simple
-              requests — reducing human-agent demand by nearly two-thirds.
-            </p>
-          </div>
-          <div class="card card-dark reveal">
-            <div class="metric-huge">20%+</div>
-            <div class="metric-label">Lower resolution cost</div>
-            <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0">
-              Lower-cost AI agents handling L1-L2 issues, with humans escalating
-              only for complex diagnosis and client interaction.
-            </p>
-          </div>
+<p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0.3rem">
+               Summarising tickets, searching knowledge bases, drafting responses.
+             </p>
+             <p class="source-note" style="font-size: 0.78rem; margin-bottom: 0; color: rgba(255,255,255,0.45);">SolarWinds State of ITSM 2025</p>
+           </div>
+           <div class="card card-dark reveal">
+             <div class="metric-huge">30.5%</div>
+             <div class="metric-label">Faster resolution</div>
+             <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0.3rem">
+               Auto-classify, prioritise, and route — humans focus on diagnosis, not triage.
+             </p>
+             <p class="source-note" style="font-size: 0.78rem; margin-bottom: 0; color: rgba(255,255,255,0.45);">SolarWinds State of ITSM 2025</p>
+           </div>
+           <div class="card card-dark reveal">
+             <div class="metric-huge">65.7%</div>
+             <div class="metric-label">Ticket deflection</div>
+             <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0.3rem">
+               Self-service AI handling resets, policy questions, and simple requests.
+             </p>
+             <p class="source-note" style="font-size: 0.78rem; margin-bottom: 0; color: rgba(255,255,255,0.45);">Freshservice Benchmark Report 2025</p>
+           </div>
+           <div class="card card-dark reveal">
+             <div class="metric-huge">20%+</div>
+             <div class="metric-label">Lower resolution cost</div>
+             <p style="font-size: 0.96rem; margin-top: 0.9rem; margin-bottom: 0.3rem">
+               AI handles L1–L2. Humans escalate only complex issues.
+             </p>
+             <p class="source-note" style="font-size: 0.78rem; margin-bottom: 0; color: rgba(255,255,255,0.45);">ITBrief Asia / Forethought AI in CX Benchmark 2025</p>
+           </div>
         </div>
-
-        <p class="reveal" style="margin-top: 1.4rem; max-width: 980px">
-          The takeaway is simple: intelligent automation changes cost-to-serve,
-          speed-to-resolution, and the competitiveness of the delivery model.
-        </p>
-
-        <p
-          class="source-note reveal"
-          title="https://www.solarwinds.com/company/newsroom/press-releases/state-of-itsm-2025 | https://cio.economictimes.indiatimes.com/news/artificial-intelligence/ai-in-it-service-management-freshservice-report-2025/124380650 | https://itbrief.asia/story/agentic-ai-helps-firms-boost-cx-satisfaction-cut-costs-per-case"
-        >
-          Sources: SolarWinds State of ITSM 2025; Freshservice / ET CIO 2025;
-          ITBrief Asia on agentic AI in service operations.
-        </p>
       </div>
 
       <div
         class="slide"
+        id="slide-margin"
         data-notes="Now connect external efficiency data to your commercial thesis: margin improvement and a shift towards higher-value work."
       >
         <p class="kicker reveal">The Margin & Value Shift</p>
@@ -1561,33 +1620,89 @@
         </h2>
 
         <div class="grid-3">
+
+          <!-- Card 1: Cost-to-Serve Reduction -->
           <div class="card reveal">
+            <svg viewBox="0 0 140 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin-bottom:0.5rem;">
+              <!-- Before AI bar -->
+              <rect class="diag-bar diag-bar-before" x="22" y="15" width="38" height="72" rx="3" fill="rgba(211,32,39,0.35)" />
+              <!-- With AI bar -->
+              <rect class="diag-bar diag-bar-after" x="80" y="38" width="38" height="49" rx="3" fill="#059669" opacity="0.75" />
+              <!-- Labels -->
+              <text class="diag-label-fade" x="41" y="98" text-anchor="middle" font-size="9" fill="#6b7280" font-family="Inter,sans-serif">Before AI</text>
+              <text class="diag-label-fade" x="99" y="98" text-anchor="middle" font-size="9" fill="#6b7280" font-family="Inter,sans-serif">With AI</text>
+              <!-- Baseline -->
+              <line x1="10" y1="87" x2="130" y2="87" stroke="#e5e7eb" stroke-width="1"/>
+              <!-- Down arrow between bars -->
+              <text class="diag-label-fade" x="70" y="55" text-anchor="middle" font-size="13" fill="#059669">↓</text>
+            </svg>
             <h3>Lower cost to serve</h3>
             <p>
-              Automation removes thousands of consultant hours spent on
-              repetitive triage and shortens the path to resolution.
+              Automation removes repetitive triage. Fewer hours, faster resolution.
             </p>
           </div>
+
+          <!-- Card 2: Margin Growth -->
           <div class="card reveal">
+            <svg viewBox="0 0 140 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin-bottom:0.5rem;">
+              <!-- Wedge fill (margin area = triangle between revenue and cost lines) -->
+              <polygon class="diag-wedge-fill" points="15,22 108,22 108,76" fill="rgba(5,150,105,0.18)" />
+              <!-- Revenue line (flat) -->
+              <line class="diag-line diag-line-revenue" x1="15" y1="22" x2="108" y2="22" stroke="#0b2b46" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- Cost line (declining) -->
+              <line class="diag-line diag-line-cost" x1="15" y1="22" x2="108" y2="76" stroke="#d32027" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- Revenue label: small dot + text on left, above line -->
+              <circle class="diag-label-fade" cx="10" cy="22" r="3.5" fill="#0b2b46"/>
+              <text class="diag-label-fade" x="17" y="17" font-size="8" fill="#0b2b46" font-family="Inter,sans-serif" font-weight="600">Revenue</text>
+              <!-- Cost label: small dot + text on left, lower -->
+              <circle class="diag-label-fade" cx="10" cy="76" r="3.5" fill="#d32027"/>
+              <text class="diag-label-fade" x="17" y="80" font-size="8" fill="#d32027" font-family="Inter,sans-serif" font-weight="600">Cost</text>
+              <!-- Margin label: positioned in the upper-right of the wedge, away from the diagonal -->
+              <text class="diag-label-fade" x="90" y="38" text-anchor="middle" font-size="9" fill="#059669" font-weight="700" font-family="Inter,sans-serif">Margin</text>
+            </svg>
             <h3>Margin growth</h3>
             <p>
-              We can deliver the same or better outcomes with leaner, more
-              focused effort and better operating leverage.
+              Same or better outcomes. Leaner effort. Better operating leverage.
             </p>
           </div>
+
+          <!-- Card 3: Capacity Reallocation -->
           <div class="card reveal">
+            <svg viewBox="0 0 140 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin-bottom:0.5rem;">
+              <!-- BEFORE bar (total height 72px from y=15 to y=87) -->
+              <!-- Reactive: 70% = 50.4px -->
+              <rect class="diag-stack-seg" x="18" y="36.6" width="36" height="50.4" rx="0" fill="#94a3b8"/>
+              <!-- Strategic: 30% = 21.6px -->
+              <rect class="diag-stack-seg" x="18" y="15" width="36" height="21.6" rx="0" fill="#0b2b46" opacity="0.6"/>
+              <!-- AFTER bar -->
+              <!-- Reactive: 50% = 36px -->
+              <rect class="diag-stack-seg" x="86" y="51" width="36" height="36" rx="0" fill="#94a3b8"/>
+              <!-- Proactive: 25% = 18px -->
+              <rect class="diag-stack-seg" x="86" y="33" width="36" height="18" rx="0" fill="#0284c7" opacity="0.75"/>
+              <!-- Upsell & Innovation: 25% = 18px -->
+              <rect class="diag-stack-seg" x="86" y="15" width="36" height="18" rx="0" fill="#6366f1" opacity="0.8"/>
+              <!-- Baseline -->
+              <line x1="10" y1="87" x2="130" y2="87" stroke="#e5e7eb" stroke-width="1"/>
+              <!-- Column labels -->
+              <text class="diag-label-fade" x="36" y="98" text-anchor="middle" font-size="8" fill="#6b7280" font-family="Inter,sans-serif">Now</text>
+              <text class="diag-label-fade" x="104" y="98" text-anchor="middle" font-size="8" fill="#6b7280" font-family="Inter,sans-serif">With AI</text>
+              <!-- Legend -->
+              <rect class="diag-label-fade" x="10" y="103" width="6" height="6" fill="#94a3b8"/>
+              <text class="diag-label-fade" x="19" y="109" font-size="6.5" fill="#6b7280" font-family="Inter,sans-serif">Reactive</text>
+              <rect class="diag-label-fade" x="55" y="103" width="6" height="6" fill="#0284c7" opacity="0.75"/>
+              <text class="diag-label-fade" x="64" y="109" font-size="6.5" fill="#6b7280" font-family="Inter,sans-serif">Proactive</text>
+              <rect class="diag-label-fade" x="100" y="103" width="6" height="6" fill="#6366f1" opacity="0.8"/>
+              <text class="diag-label-fade" x="109" y="109" font-size="6.5" fill="#6b7280" font-family="Inter,sans-serif">Upsell</text>
+            </svg>
             <h3>Reinvesting time</h3>
             <p>
-              Freed capacity moves into advisory, optimisation, architecture,
-              and higher-value client work.
+              Freed capacity moves into advisory, optimisation, and higher-value work.
             </p>
           </div>
+
         </div>
 
-        <p class="reveal" style="margin-top: 1.4rem; max-width: 980px">
-          This is the evolution: AMS becomes less break-fix, more proactive,
-          more strategic, and more commercially valuable.
-        </p>
+        
       </div>
 
       <div
@@ -1604,8 +1719,7 @@
           <div class="card card-emphasis reveal">
             <h3>What JobFit is</h3>
             <p>
-              An AI-powered CV screening SaaS designed for unbiased, compliant,
-              and rapid screening of applicants.
+              AI-powered CV screening SaaS. Unbiased, compliant, rapid.
             </p>
             <ul class="mini-list">
               <li>Built in record time using AI</li>
@@ -1617,11 +1731,7 @@
           <div class="card card-emphasis reveal">
             <h3>Why it matters</h3>
             <p>
-              JobFit proves a repeatable model:
-              <strong
-                >real client problem + rapid AI build + SaaS packaging</strong
-              >
-              = scalable revenue with minimal ongoing consultant involvement.
+              Real problem + rapid AI build + SaaS = scalable revenue, minimal consultant effort.
             </p>
           </div>
         </div>
@@ -1630,30 +1740,24 @@
           <div class="card reveal">
             <h3>Prototype Timeline</h3>
             <p style="margin-bottom: 0">
-              4 days from client ask to working demo — rapid iteration
-              proves the model works.
+              4 days from ask to working demo.
             </p>
           </div>
           <div class="card reveal">
             <h3>GenAI Core</h3>
             <p style="margin-bottom: 0">
-              Interprets CV data regardless of format — extracting structured
-              fields from any document.
+              Interprets any CV format. Extracts structured fields.
             </p>
           </div>
           <div class="card reveal">
             <h3>High Volume</h3>
             <p style="margin-bottom: 0">
-              Processes hundreds of applications per role without proportionally
-              increasing effort.
+              Hundreds of applications per role. No proportional effort increase.
             </p>
           </div>
         </div>
 
-        <p class="reveal" style="margin-top: 1.5rem; max-width: 980px">
-          The lesson is simple: when we combine delivery insight with rapid
-          prototyping, we can create funded, repeatable solutions.
-        </p>
+        
       </div>
 
       <!-- JOBFIT LESSONS LEARNT -->
@@ -1745,9 +1849,8 @@
           </div>
         </div>
 
-        <p class="reveal" style="margin-top: 1.5rem; color: #cbd5e1; max-width: 980px;">
-          JobFit proved the prototype chassis works and taught us what the production chassis needs to be.
-          Every build after this gets the benefit of that investment.
+        <p class="reveal" style="margin-top: 1.5rem; color: #cbd5e1;">
+          JobFit proved both chassis. Every build after this is cheaper and faster.
         </p>
       </div>
 
@@ -1765,48 +1868,42 @@
           <div class="card reveal">
             <h3>System Health Check & Monitor</h3>
             <p style="margin-bottom: 0">
-              Proactive review of admin alerts and check tool errors before
-              they become incidents or escalations.
+              Proactive review of admin alerts before they become incidents.
             </p>
           </div>
           <div class="card reveal">
             <h3>Data Integrity Engine</h3>
             <p style="margin-bottom: 0">
-              Automated validation of org structure, position data,
-              employee and employment information across the instance.
+              Automated validation of org structure, positions, and employee data.
             </p>
           </div>
           <div class="card reveal">
             <h3>SuccessFactors Benefits Integration</h3>
             <p style="margin-bottom: 0">
-              Medical aid and life insurance package integration with
-              South African vendors directly in SuccessFactors.
+              Medical aid and life insurance — SA vendors, directly in SuccessFactors.
             </p>
           </div>
           <div class="card reveal">
             <h3>Business Rule Review</h3>
             <p style="margin-bottom: 0">
-              Review of errors, inconsistencies, and old config that
-              accumulate over time in Workflow, RBPs, and Pay Structures.
+              Errors and old config in Workflow, RBPs, and Pay Structures.
             </p>
           </div>
           <div class="card reveal">
             <h3>Unit Testing & Regression Bot</h3>
             <p style="margin-bottom: 0">
-              Browser-use agent for performing repeatable regression
-              testing after releases and configuration changes.
+              Repeatable regression testing after releases and config changes.
             </p>
           </div>
           <div class="card reveal">
             <h3>Support Agent</h3>
             <p style="margin-bottom: 0">
-              Lower tier support agent for resolving simple user issues
-              or questions, working alongside Joule.
+              Resolves simple user issues alongside Joule.
             </p>
           </div>
         </div>
 
-        <p class="reveal" style="margin-top: 1.5rem; max-width: 980px">
+        <p class="reveal" style="margin-top: 1.5rem; ">
           Each follows the Prototype Factory model: client problem, prototype,
           validate, fund, productise, scale.
         </p>
@@ -1821,10 +1918,7 @@
           A repeatable engine for <span class="accent">funded innovation</span>
         </h2>
 
-        <p class="reveal" style="max-width: 980px">
-          Identify an AMS client problem, build a prototype in one week,
-          validate early, secure buy-in, then productise and scale.
-        </p>
+        
 
         <div class="blueprint reveal">
           <div class="step">Identify</div>
@@ -1904,26 +1998,26 @@
           <div class="flywheel-cards">
             <div class="card card-dark">
               <h3 style="color: white">Listen</h3>
-              <p style="color: #d1d5db; margin-bottom: 0; font-size: 0.95rem;">
-                AMS relationships surface real client pain points first-hand — earlier and more honestly than any market research.
-              </p>
+<p style="color: #d1d5db; margin-bottom: 0; font-size: 0.95rem;">
+                 Client pain points — surfaced earlier than any market research.
+               </p>
             </div>
             <div class="card card-dark">
               <h3 style="color: white">Build</h3>
-              <p style="color: #d1d5db; margin-bottom: 0; font-size: 0.95rem;">
-                We co-create solutions with those clients using the Prototype Factory — validating real problems before any major investment.
-              </p>
+<p style="color: #d1d5db; margin-bottom: 0; font-size: 0.95rem;">
+                 Co-create with clients via the Prototype Factory. Validate before investing.
+               </p>
             </div>
             <div class="card card-dark">
               <h3 style="color: white">Scale</h3>
-              <p style="color: #d1d5db; margin-bottom: 0; font-size: 0.95rem;">
-                The AMS network becomes our lowest-friction distribution channel — existing trust lets us sell across the entire portfolio.
-              </p>
+<p style="color: #d1d5db; margin-bottom: 0; font-size: 0.95rem;">
+                 Existing trust = lowest-friction distribution across the portfolio.
+               </p>
             </div>
           </div>
         </div>
 
-        <p class="reveal" style="margin-top: 1.6rem; color: #cbd5e1; max-width: 980px;">
+        <p class="reveal" style="margin-top: 1.6rem; color: #cbd5e1;">
           Each cycle deepens client trust, sharpens our insight, and widens the competitive moat. <strong style="color: white;">No competitor without an AMS network can replicate this.</strong>
         </p>
       </div>
@@ -1942,29 +2036,31 @@
           <div class="card card-dark reveal">
             <h3>Module gaps</h3>
             <p style="margin-bottom: 0">
-              There is major white space across existing clients in Performance
-              & Goals, Compensation, Learning, and Work Zone.
+              Most clients have Joule available. Few are configured to use it.
             </p>
           </div>
           <div class="card card-dark reveal">
             <h3>The captive market</h3>
             <p style="margin-bottom: 0">
-              Every existing AMS client is already a warm lead for new
-              AI-enabled solutions.
+              Every AMS client is already a warm lead.
             </p>
           </div>
           <div class="card card-dark reveal">
             <h3>Our unfair advantage</h3>
             <p style="margin-bottom: 0">
-              We already own the relationships, understand the pain points, and
-              see the patterns earlier than anyone else.
+              We own the relationships, the pain points, and the patterns.
             </p>
           </div>
           <div class="card card-dark reveal">
             <h3>Market positioning</h3>
             <p style="margin-bottom: 0">
-              This is how we secure first-mover advantage as the premier
-              AI-enabled SuccessFactors support partner in the region.
+              First-mover advantage as the premier AI-enabled SuccessFactors partner.
+            </p>
+          </div>
+          <div class="card card-dark reveal">
+            <h3>The signal</h3>
+            <p style="margin-bottom: 0">
+              75% of enterprises want a service provider to lead AI implementation for them. — BCG 2026
             </p>
           </div>
         </div>
@@ -1991,22 +2087,19 @@
           <div class="card card-dark reveal">
             <h3 style="color: white">Data privacy (POPIA)</h3>
             <p style="color: #d1d5db; margin-bottom: 0">
-              Responsible-by-design controls must be built into every prototype
-              from day one, especially for high-compliance clients.
+              Responsible-by-design from day one — especially for high-compliance clients.
             </p>
           </div>
           <div class="card card-dark reveal">
             <h3 style="color: white">SaaS adoption</h3>
             <p style="color: #d1d5db; margin-bottom: 0">
-              Pilot programmes and internal client champions can create early
-              traction before wider roll-out.
+              Pilot programmes and client champions create early traction.
             </p>
           </div>
           <div class="card card-dark reveal">
             <h3 style="color: white">Consultant resistance</h3>
             <p style="color: #d1d5db; margin-bottom: 0">
-              Clear upskilling paths position AI as a career enabler and force
-              multiplier, not a replacement.
+              AI as career enabler and force multiplier, not a replacement.
             </p>
           </div>
         </div>
@@ -2025,30 +2118,25 @@
           <li class="reveal">
             <span class="ask-number">1</span>
             <span>
-              <strong>Guidance:</strong> A seat at the table in leadership and
-              executive client discussions so I can hear challenges first-hand
-              and identify prototyping opportunities.
+              <strong>Guidance:</strong> A seat at the table — to hear challenges first-hand and identify opportunities.
             </span>
           </li>
           <li class="reveal">
             <span class="ask-number">2</span>
             <span>
-              <strong>Assistance:</strong> Leadership support in positioning and
-              selling these innovation solutions to existing client executives.
+              <strong>Assistance:</strong> Support positioning and selling innovation to existing client executives.
             </span>
           </li>
           <li class="reveal">
             <span class="ask-number">3</span>
             <span>
-              <strong>Endorsement:</strong> Formal backing for the Prototype
-              Factory as an official strategic initiative.
+              <strong>Endorsement:</strong> Formal backing for the Prototype Factory as an official initiative.
             </span>
           </li>
           <li class="reveal">
             <span class="ask-number">4</span>
             <span>
-              <strong>Resourcing:</strong> Approval to cross-train, dedicate
-              capacity to product development, and hire where needed.
+              <strong>Resourcing:</strong> Cross-train, capacity, and hire where needed.
             </span>
           </li>
         </ul>
@@ -2064,15 +2152,14 @@
           scale it across the portfolio,
           and let me lead the team that delivers it.
         </p>
-        <p class="sub-quote reveal">
-          AMS is the firm’s closest, most consistent touchpoint with clients.
-          That proximity is our best source of insight, our best route to
-          adoption, and our best platform for AI-led growth.
+<p class="sub-quote reveal">
+          AMS is the firm's closest client touchpoint — our best source of insight, route to adoption, and platform for AI-led growth.
         </p>
       </div>
     </div>
 
     <div class="controls">
+      <div id="source-slot"></div>
       <button onclick="prevSlide()">&#8592; Prev</button>
       <button onclick="nextSlide()">Next &#8594;</button>
     </div>
@@ -2103,6 +2190,8 @@
       const slideNum = document.getElementById("slide-number");
       const slideList = document.getElementById("slide-list");
       const slideListOverlay = document.getElementById("slide-list-overlay");
+      const sourceSlot = document.getElementById("source-slot");
+      const controlsEl = document.querySelector(".controls");
 
       let slideListOpen = false;
 
@@ -2204,6 +2293,19 @@
         progress.style.width = pct + "%";
       }
 
+      function updateSourceSlot() {
+        const note = slides[currentSlide].querySelector(".source-note");
+        const isDark = slides[currentSlide].classList.contains("dark-slide");
+        if (note) {
+          sourceSlot.textContent = note.textContent;
+          sourceSlot.title = note.title || "";
+        } else {
+          sourceSlot.textContent = "";
+          sourceSlot.title = "";
+        }
+        controlsEl.classList.toggle("on-dark-controls", isDark);
+      }
+
       function updateSlideNumber() {
         const cur = String(currentSlide + 1).padStart(2, "0");
         const total = String(slides.length).padStart(2, "0");
@@ -2221,6 +2323,8 @@
             item.classList.toggle("active", index === currentSlide);
           });
         }
+
+        updateSourceSlot();
       }
 
       function showSlide(newIndex, direction) {
@@ -2237,6 +2341,7 @@
         oldSlide.classList.remove("active");
 
         currentSlide = newIndex;
+        history.replaceState(null, '', '#' + (newIndex + 1));
         const newSlide = slides[currentSlide];
         newSlide.classList.add("active");
 
@@ -2426,6 +2531,14 @@
 
       animate();
 
+      // Restore slide from URL hash on load
+      const hashSlide = parseInt(window.location.hash.slice(1), 10);
+      if (!isNaN(hashSlide) && hashSlide >= 1 && hashSlide <= slides.length) {
+        slides[0].classList.remove('active');
+        currentSlide = hashSlide - 1;
+        slides[currentSlide].classList.add('active');
+        if (currentSlide > AGENDA_SLIDE_IDX) showSectionBar();
+      }
       updateProgress();
       updateSlideNumber();
     </script>
