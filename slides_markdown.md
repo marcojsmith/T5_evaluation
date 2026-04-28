@@ -94,13 +94,16 @@ Keep this personal and humble. This is not a credentials dump — it is a glimps
 INTRODUCTION & ABOUT ME
 Why I am positioned to lead this now
 Current role
-• Driving delivery excellence in live, high-pressure settings
-• Bridging operations, commercials, and client relationships
-• Translating delivery pain points into system requirements and product opportunities
+• Managing requests, escalations, and delivery quality
+• Monitoring KPIs - utilisation, burn rate, capacity, SLA adherence, NPS
+• Balancing consultant blends + cost management across the client portfolio
+• WA approvals, contract renewals, commercial negotiations
+• New client RFPs, sales workshops, and conference representation
+• Team skills planning and product & services roadmap strategy
 Key clients I am responsible for:
 Allan Gray · Discovery · Capitec · Thungela · Mediclinic · O&L · Sanlam · Vitality · Illovo · Shutterfly · SARS · UK Clients
 Notable: AGA · UCT · Ricoh · Liberty · MVAF · SA Mint · Engen
-Managing client relationships, escalations, contracts, and operational excellence across complex AMS environments.
+Setting direction and owning commercial outcomes — while staying close to delivery to ensure operational excellence.
 # Core idea of the slide:
 The presenter has deep AMS experience across demanding clients, giving them unique insight into client pain points and the credibility to lead AI innovation.
 # How the slide fits in the larger presentation flow:
